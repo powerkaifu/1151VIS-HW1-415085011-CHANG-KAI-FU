@@ -185,7 +185,7 @@ function render() {
         <div class="tip-divider"></div>
         <div class="tip-grid">
           <span class="tip-lbl">新生註冊率</span>
-          <span class="tip-val highlight" style="color:${d.rate < 60 ? '#ef4444' : '#0f172a'}">${d.rate?.toFixed(2)}%</span>
+          <span class="tip-val highlight" style="color:${d.rate < 60 ? '#f87171' : (d.rate < 80 ? '#fbbf24' : '#ffffff')}">${d.rate?.toFixed(2)}%</span>
           <span class="tip-lbl">核定名額</span>
           <span class="tip-val">${d.quota?.toLocaleString()} 人</span>
           <span class="tip-lbl">實際註冊</span>
@@ -199,8 +199,8 @@ function render() {
     // 🌟 圓點右側防遮擋定位：預設顯示在圓點右側，保留 20px 安全間隔，絕不遮住圓點
     const cx = xScale(d.quota) + MARGIN.left
     const cy = yScale(d.rate) + MARGIN.top
-    const tipWidth = 260
-    const tipHeight = 210
+    const tipWidth = 310
+    const tipHeight = 220
 
     let left = cx + 20
     if (left + tipWidth > WIDTH - 16) {
@@ -251,123 +251,7 @@ function render() {
     hideTooltip()
   }
 
-  // 7️⃣ 🌟 先繪製標註群組（放置在圓點層下方，圓點永遠 100% 浮在最頂部，絕不受文字覆蓋）
-  const annotatedSchools = []
-  const ntu = validData.find(d => d.schoolName.includes('臺灣大學'))
-  if (ntu) annotatedSchools.push({ data: ntu, type: 'top' })
-
-  const fju = validData.find(d => d.schoolName.includes('輔仁大學'))
-  if (fju) annotatedSchools.push({ data: fju, type: 'major-private' })
-
-  const sortedByRate = [...validData].sort((a, b) => a.rate - b.rate)
-  if (sortedByRate.length && sortedByRate[0].rate < 60) {
-    annotatedSchools.push({ data: sortedByRate[0], type: 'danger-lowest' })
-  }
-
-  // 智能避讓演算法：計算 8 個方位中與其他圓點距離最大（最空曠無點）的方向
-  const candidateVectors = [
-    { dx: 36,  dy: -24, anchor: 'start' },
-    { dx: -36, dy: -24, anchor: 'end' },
-    { dx: 36,  dy: 26,  anchor: 'start' },
-    { dx: -36, dy: 26,  anchor: 'end' },
-    { dx: 0,   dy: -34, anchor: 'middle' },
-    { dx: 0,   dy: 34,  anchor: 'middle' },
-    { dx: 52,  dy: 0,   anchor: 'start' },
-    { dx: -52, dy: 0,   anchor: 'end' },
-  ]
-
-  function getBestOffset(target) {
-    const tx = xScale(target.quota)
-    const ty = yScale(target.rate)
-    let best = candidateVectors[0]
-    let maxMinDist = -1
-
-    for (const c of candidateVectors) {
-      const lx = tx + c.dx
-      const ly = ty + c.dy
-      // 邊界檢查：不可超出繪圖有效區域
-      if (lx < 10 || lx > INNER_W - 60 || ly < 12 || ly > INNER_H - 12) continue
-
-      // 計算與畫布所有其他圓點的最近距離
-      let minDist = 9999
-      for (const other of validData) {
-        if (other.schoolCode === target.schoolCode) continue
-        const ox = xScale(other.quota)
-        const oy = yScale(other.rate)
-        const dist = Math.hypot(lx - ox, ly - oy)
-        if (dist < minDist) minDist = dist
-      }
-
-      if (minDist > maxMinDist) {
-        maxMinDist = minDist
-        best = c
-      }
-    }
-    return best
-  }
-
-  const annotationsGroup = g.append('g').attr('class', 'direct-annotations')
-
-  annotatedSchools.forEach(item => {
-    const d = item.data
-    const x = xScale(d.quota)
-    const y = yScale(d.rate)
-    const offset = getBestOffset(d)
-
-    const labelX = x + offset.dx
-    const labelY = y + offset.dy
-
-    const itemGroup = annotationsGroup.append('g')
-      .attr('class', 'annotation-item')
-      .attr('cursor', 'pointer')
-      .attr('opacity', () => {
-        if (!hasSelected) return 1
-        return d.schoolName === props.selectedSchool ? 1 : 0.25
-      })
-
-    // 智能避讓引線
-    const lineEl = itemGroup.append('line')
-      .attr('x1', x)
-      .attr('y1', y)
-      .attr('x2', labelX)
-      .attr('y2', labelY)
-      .attr('stroke', d.rate < 60 ? '#ef4444' : '#64748b')
-      .attr('stroke-width', 1.3)
-      .attr('stroke-dasharray', '3,2')
-
-    // 標籤文字（採用白色厚描邊，字體 13px 清晰，背後完全透光，絕不遮掩任何底層圖表）
-    const labelText = `${cleanName(d.schoolName)} (${d.rate.toFixed(1)}%)`
-    const textEl = itemGroup.append('text')
-      .attr('x', labelX + (offset.anchor === 'start' ? 4 : offset.anchor === 'end' ? -4 : 0))
-      .attr('y', labelY + 4)
-      .attr('text-anchor', offset.anchor)
-      .attr('font-size', '13px')
-      .attr('font-weight', '700')
-      .attr('fill', d.rate < 60 ? '#dc2626' : '#1e293b')
-      .style('paint-order', 'stroke fill')
-      .style('stroke', '#ffffff')
-      .style('stroke-width', '4px')
-      .style('stroke-linejoin', 'round')
-      .text(labelText)
-
-    // 🌟 互動綁定：滑鼠懸停標籤文字時，完全等同於懸停該校圓點！
-    itemGroup
-      .on('mouseover', function () {
-        lineEl.attr('stroke-width', 2.2).attr('stroke', '#2563eb')
-        textEl.attr('fill', '#2563eb')
-        highlightTarget(d.schoolName, d)
-      })
-      .on('mouseleave', function () {
-        lineEl.attr('stroke-width', 1.3).attr('stroke', d.rate < 60 ? '#ef4444' : '#64748b')
-        textEl.attr('fill', d.rate < 60 ? '#dc2626' : '#1e293b')
-        resetHighlight()
-      })
-      .on('click', function () {
-        emit('select-school', d.schoolName)
-      })
-  })
-
-  // 8️⃣ 繪製資料點群組（位於 annotationsGroup 之上，圓點永不被遮擋）
+  // 7️⃣ 繪製資料點群組（純粹圓點展示，滑鼠懸停顯示 Tooltip 詳情）
   const dotsGroup = g.append('g').attr('class', 'dots-group')
 
   const dots = dotsGroup.selectAll('circle.dot')
@@ -415,7 +299,7 @@ onMounted(render)
       <div class="header-left">
         <h2 class="chart-title">各校招生規模與新生註冊率分佈</h2>
         <p class="chart-subtitle">
-          每個圓點代表一所學校 · 已標註代表性名校與邊緣學校 · <span class="highlight-action">點擊任一點可鎖定歷史走勢</span>
+          每個圓點代表一所學校 · 滑鼠懸停查看即時數據 · <span class="highlight-action">點擊任一點可鎖定歷史走勢</span>
         </p>
       </div>
 
@@ -604,26 +488,30 @@ onMounted(render)
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
   transition: opacity 0.15s ease;
   z-index: 50;
-  width: 250px;
+  width: 310px;
 }
 
 :deep(.tip-header) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 3px;
+  gap: 10px;
+  margin-bottom: 4px;
 }
 
 :deep(.tip-title) {
   font-weight: 700;
   font-size: 15.5px;
   color: #ffffff;
+  line-height: 1.35;
 }
 
 :deep(.tip-badge) {
+  flex-shrink: 0;
+  white-space: nowrap;
   font-size: 12px;
   font-weight: 700;
-  padding: 2px 7px;
+  padding: 2px 8px;
   border-radius: 4px;
 }
 
@@ -711,20 +599,5 @@ onMounted(render)
 :deep(.x-axis line),
 :deep(.y-axis line) {
   stroke: #cbd5e1;
-}
-
-/* 標註群組微互動 */
-:deep(.annotation-item) {
-  cursor: pointer;
-  transition: opacity 0.2s ease;
-}
-
-:deep(.annotation-item text),
-:deep(.annotation-item line) {
-  transition: all 0.15s ease;
-}
-
-:deep(.annotation-item:hover text) {
-  filter: drop-shadow(0 2px 4px rgba(37, 99, 235, 0.3));
 }
 </style>
