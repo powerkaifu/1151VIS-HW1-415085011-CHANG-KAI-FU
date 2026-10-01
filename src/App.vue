@@ -26,6 +26,7 @@ const filterType = ref('all')
 // 🔍 搜尋與選取的特定學校名稱
 const searchQuery = ref('')
 const selectedSchool = ref('')
+const searchNoResult = ref(false)  // 🆕 搜尋無結果旗標
 
 // ✅ 資料載入完成後預設最新年度
 watch(
@@ -108,6 +109,7 @@ function quickPickSchool(keyword) {
 
 // 搜尋輸入監聽
 function handleSearchInput() {
+	searchNoResult.value = false
 	if (!searchQuery.value.trim()) {
 		selectedSchool.value = ''
 		return
@@ -117,6 +119,10 @@ function handleSearchInput() {
 	)
 	if (match) {
 		selectedSchool.value = match.schoolName
+		searchNoResult.value = false
+	} else {
+		selectedSchool.value = ''
+		searchNoResult.value = true  // 🆕 觸發無結果提示
 	}
 }
 
@@ -124,6 +130,7 @@ function handleSearchInput() {
 function clearSelectedSchool() {
 	selectedSchool.value = ''
 	searchQuery.value = ''
+	searchNoResult.value = false  // 🆕 同步重置
 }
 </script>
 
@@ -282,6 +289,10 @@ function clearSelectedSchool() {
 						/>
 						<button v-if="searchQuery" class="search-clear" @click="clearSelectedSchool">✕</button>
 					</div>
+					<!-- 🆕 搜尋無結果提示 -->
+					<p v-if="searchNoResult" class="search-no-result">
+						找不到「{{ searchQuery }}」，請確認校名是否正確
+					</p>
 					<!-- 快捷熱門標籤 -->
 					<div class="quick-tags">
 						<span class="tag-hint">快捷:</span>
@@ -509,11 +520,41 @@ body {
 	transition: all 0.15s ease;
 }
 
-.kpi-card:hover,
-.kpi-card.active {
+.kpi-card:hover {
 	transform: translateY(-2px);
 	box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.06);
 	border-color: #cbd5e1;
+}
+
+.kpi-card.active {
+	transform: translateY(-3px);
+	box-shadow: 0 8px 20px -4px rgba(37, 99, 235, 0.15);
+	border-color: #2563eb;
+	background: #f0f9ff;
+}
+
+.kpi-card.danger.active {
+	transform: translateY(-3px);
+	box-shadow: 0 8px 20px -4px rgba(239, 68, 68, 0.18);
+	border-color: #ef4444;
+	border-left-color: #ef4444;
+	background: #fff5f5;
+}
+
+.kpi-card.warning.active {
+	transform: translateY(-3px);
+	box-shadow: 0 8px 20px -4px rgba(245, 158, 11, 0.18);
+	border-color: #f59e0b;
+	border-left-color: #f59e0b;
+	background: #fffbeb;
+}
+
+.kpi-card.highlight.active {
+	transform: translateY(-3px);
+	box-shadow: 0 8px 20px -4px rgba(37, 99, 235, 0.18);
+	border-color: #2563eb;
+	border-left-color: #2563eb;
+	background: #eff6ff;
 }
 
 .kpi-card.danger {
@@ -697,11 +738,14 @@ body {
 .pill-btn.active {
 	background: #ffffff;
 	color: #0f172a;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	font-weight: 700;
 }
 
 .pill-btn.danger-pill.active {
+	background: #fee2e2;
 	color: #dc2626;
+	font-weight: 700;
 }
 
 /* 搜尋框 */
@@ -746,6 +790,20 @@ body {
 	font-size: 12px;
 	color: #94a3b8;
 	cursor: pointer;
+}
+
+/* 🆕 搜尋無結果提示 */
+.search-no-result {
+	font-size: 12.5px;
+	color: #dc2626;
+	margin: 0;
+	padding: 4px 2px;
+	animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+	from { opacity: 0; transform: translateY(-4px); }
+	to   { opacity: 1; transform: translateY(0); }
 }
 
 /* 快捷標籤 */

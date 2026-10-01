@@ -36,9 +36,9 @@ const props = defineProps({
 const svgRef = ref(null)
 
 // ========== 圖表常數（Margin Convention） ==========
-const MARGIN = { top: 28, right: 130, bottom: 52, left: 60 }
+const MARGIN = { top: 36, right: 140, bottom: 56, left: 62 }
 const WIDTH  = 1000
-const HEIGHT = 300
+const HEIGHT = 420
 
 const INNER_W = WIDTH  - MARGIN.left - MARGIN.right
 const INNER_H = HEIGHT - MARGIN.top  - MARGIN.bottom
@@ -233,9 +233,9 @@ function render() {
       .attr('x2', curX)
       .attr('y1', 0)
       .attr('y2', INNER_H)
-      .attr('stroke', '#64748b')
-      .attr('stroke-width', 1.5)
-      .attr('stroke-dasharray', '3,3')
+      .attr('stroke', 'rgba(37, 99, 235, 0.45)')
+      .attr('stroke-width', 1)
+      .attr('stroke-dasharray', '2,3')
   }
 }
 
@@ -247,7 +247,7 @@ onMounted(render)
   <div class="trend-card">
     <div class="card-header">
       <div>
-        <h3 class="chart-title">歷年註冊率走勢與命運分歧</h3>
+        <h3 class="chart-title">106～114 學年度公私立平均新生註冊率趨勢</h3>
         <p class="chart-subtitle">
           <span v-if="selectedSchool" class="active-school-text">
             已鎖定：<strong>{{ cleanName(selectedSchool) }}</strong> 9 年歷年走勢對照
@@ -270,8 +270,8 @@ onMounted(render)
       <svg
         ref="svgRef"
         :width="1000"
-        :height="300"
-        viewBox="0 0 1000 300"
+        :height="420"
+        viewBox="0 0 1000 420"
         class="chart-svg"
       />
     </div>

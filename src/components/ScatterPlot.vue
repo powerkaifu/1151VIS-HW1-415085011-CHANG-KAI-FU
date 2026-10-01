@@ -35,6 +35,16 @@ const props = defineProps({
   },
 })
 
+// 計算篩選後是否有有效資料（用於 Empty State）
+import { computed } from 'vue'
+const filteredCount = computed(() => {
+  let d = props.data.filter(d => d.rate !== null && d.quota !== null && d.quota > 0)
+  if (props.filterType === 'public') d = d.filter(d => d.ownership === '公立')
+  else if (props.filterType === 'private') d = d.filter(d => d.ownership === '私立')
+  else if (props.filterType === 'danger') d = d.filter(d => d.rate < props.dangerThreshold)
+  return d.length
+})
+
 // ========== DOM 參照 ==========
 const svgRef     = ref(null)
 const tooltipRef = ref(null)
@@ -124,20 +134,20 @@ function render() {
   // 坐標軸標籤
   g.append('text')
     .attr('x', INNER_W / 2)
-    .attr('y', INNER_H + 52)
+    .attr('y', INNER_H + 54)
     .attr('text-anchor', 'middle')
-    .attr('fill', '#475569')
-    .attr('font-size', '14px')
+    .attr('fill', '#64748b')
+    .attr('font-size', '13px')
     .attr('font-weight', '600')
-    .text('核定招生名額（人，反映學校規模）')
+    .text('核定招生名額（人）')
 
   g.append('text')
     .attr('transform', 'rotate(-90)')
     .attr('x', -INNER_H / 2)
-    .attr('y', -52)
+    .attr('y', -54)
     .attr('text-anchor', 'middle')
-    .attr('fill', '#475569')
-    .attr('font-size', '14px')
+    .attr('fill', '#64748b')
+    .attr('font-size', '13px')
     .attr('font-weight', '600')
     .text('新生註冊率（%）')
 
@@ -334,7 +344,15 @@ onMounted(render)
         :height="520"
         viewBox="0 0 1000 520"
         class="chart-svg"
+        :style="{ opacity: filteredCount === 0 ? 0 : 1 }"
       />
+
+      <!-- 🆕 空狀態提示（篩選後無資料） -->
+      <div v-if="filteredCount === 0" class="empty-state">
+        <span class="empty-icon">📊</span>
+        <p class="empty-text">此學年度無符合篩選條件的學校資料</p>
+        <p class="empty-sub">請嘗試切換學年度或調整屬性篩選條件</p>
+      </div>
 
       <!-- 現代深色毛玻璃 Tooltip -->
       <div
@@ -346,7 +364,7 @@ onMounted(render)
     <!-- 底部數據註腳 -->
     <div class="card-footer">
       <div class="footnote">
-        * 註冊率計算包含全校總量內核定名額與境外新生。
+        * 教育部官方公式 E = (C+D) / (A−B+D) × 100%，本圖 Y 軸直接呈現官方公布之學校端新生註冊率；超過 100% 者以 100% 計。
       </div>
       <div class="threshold-legend">
         <span class="danger-dot"></span> 低於 60% 門檻學校共
@@ -469,6 +487,39 @@ onMounted(render)
   display: block;
   width: 100%;
   height: auto;
+}
+
+/* 🆕 空狀態提示卡片 */
+.empty-state {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 32px 48px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.empty-icon {
+  font-size: 36px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.empty-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #334155;
+  margin: 0 0 6px 0;
+}
+
+.empty-sub {
+  font-size: 13px;
+  color: #94a3b8;
+  margin: 0;
 }
 
 /* 現代深冷毛玻璃 Tooltip (舒適字級) */
