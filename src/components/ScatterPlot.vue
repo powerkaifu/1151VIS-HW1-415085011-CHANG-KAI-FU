@@ -206,16 +206,12 @@ function render() {
         <div class="tip-action-hint">👆 點擊即可鎖定查看 9 年歷年軌跡</div>
       `)
 
-    // 🌟 圓點右側防遮擋定位：預設顯示在圓點右側，保留 20px 安全間隔，絕不遮住圓點
+    // 🌟 圓點右側防遮擋定位：完全固定在圓點右側，保留 20px 安全間隔，絕不翻轉到左邊遮擋
     const cx = xScale(d.quota) + MARGIN.left
     const cy = yScale(d.rate) + MARGIN.top
-    const tipWidth = 310
     const tipHeight = 220
 
-    let left = cx + 20
-    if (left + tipWidth > WIDTH - 16) {
-      left = cx - tipWidth - 20
-    }
+    const left = cx + 20
 
     let top = cy - tipHeight / 2
     if (top < 12) top = 12
@@ -480,7 +476,7 @@ onMounted(render)
 .canvas-wrapper {
   position: relative;
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .chart-svg {
