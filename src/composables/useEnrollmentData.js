@@ -29,7 +29,7 @@ function parseNum(str) {
  * @param {number|null} rate 新生註冊率
  * @returns {'未達 60%'|'60% ~ 80%'|'80% 以上'|'無資料'}
  */
-function calcCrisisLevel(rate) {
+function calcRateGroup(rate) {
   if (rate === null) return '無資料'
   if (rate < THRESHOLD_DANGER)  return '未達 60%'
   if (rate < THRESHOLD_WARNING) return '60% ~ 80%'
@@ -71,7 +71,7 @@ export function useEnrollmentData() {
 
         // ✅ 衍生指標：本地核定與註冊差額 (A - C，非教育部官方含境外生之缺額定義)
         const deficit      = (quota !== null && enrolled !== null) ? quota - enrolled : null
-        const crisisLevel  = calcCrisisLevel(rate)
+        const rateGroup    = calcRateGroup(rate)
         const year         = row['學年度']?.trim()
         const ownership    = row['設立別']?.trim()
         const schoolType   = row['學校類別']?.trim()
@@ -90,7 +90,7 @@ export function useEnrollmentData() {
           overseas,    // 境外生人數
           rate,        // 新生註冊率（%）
           deficit,     // 招生缺額（衍生）
-          crisisLevel, // 危機分級（衍生）
+          rateGroup,   // 註冊率區間（衍生）
         }
       })
 

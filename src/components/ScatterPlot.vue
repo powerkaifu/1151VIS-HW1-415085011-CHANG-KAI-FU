@@ -183,13 +183,13 @@ function render() {
   const hasSelected = !!props.selectedSchool
 
   function showTooltip(d) {
-    const badgeStyle = getBadgeMeta(d.crisisLevel)
+    const badgeStyle = getBadgeMeta(d.rateGroup)
     tooltip
       .style('opacity', 1)
       .html(`
         <div class="tip-header">
           <span class="tip-title">${cleanName(d.schoolName)}</span>
-          <span class="tip-badge" style="background:${badgeStyle.bg}; color:${badgeStyle.color};">${d.crisisLevel}</span>
+          <span class="tip-badge" style="background:${badgeStyle.bg}; color:${badgeStyle.color};">${d.rateGroup}</span>
         </div>
         <div class="tip-meta">${d.ownership} · ${d.schoolType}</div>
         <div class="tip-divider"></div>
