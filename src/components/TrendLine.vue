@@ -10,10 +10,20 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  /** 目前選取的學年度（用來高亮對應年份） */
+  /** 目前選取的學年度（用來高亮對應年份垂直線） */
   selectedYear: {
     type: String,
     required: true,
+  },
+  /** 目前鎖定查看的特定學校名稱 */
+  selectedSchool: {
+    type: String,
+    default: '',
+  },
+  /** 該選定學校的歷年走勢資料陣列 */
+  schoolHistory: {
+    type: Array,
+    default: () => [],
   },
   /** 退場警戒線 */
   dangerThreshold: {
@@ -26,12 +36,17 @@ const props = defineProps({
 const svgRef = ref(null)
 
 // ========== 圖表常數（Margin Convention） ==========
-const MARGIN = { top: 30, right: 120, bottom: 60, left: 65 }
-const WIDTH  = 640
-const HEIGHT = 280
+const MARGIN = { top: 28, right: 130, bottom: 52, left: 60 }
+const WIDTH  = 1000
+const HEIGHT = 300
 
 const INNER_W = WIDTH  - MARGIN.left - MARGIN.right
 const INNER_H = HEIGHT - MARGIN.top  - MARGIN.bottom
+
+function cleanName(name) {
+  if (!name) return ''
+  return name.replace(/學校財團法人/g, '').replace(/財團法人/g, '').replace(/(.+?)\1+/g, '$1').trim()
+}
 
 // ========== 繪圖邏輯 ==========
 function render() {
@@ -54,14 +69,35 @@ function render() {
   const xScale = d3.scalePoint()
     .domain(years)
     .range([0, INNER_W])
-    .padding(0.2)
+    .padding(0.15)
+
+  // 判斷是否有特定學校且其註冊率較低，自適應 Y 軸
+  let minY = 50
+  if (props.schoolHistory.length) {
+    const minSchoolRate = d3.min(props.schoolHistory, d => d.rate)
+    if (minSchoolRate && minSchoolRate < 50) minY = Math.max(0, Math.floor(minSchoolRate / 10) * 10)
+  }
 
   const yScale = d3.scaleLinear()
-    .domain([50, 100])  // 折線圖聚焦在 50~100% 的有效區間
+    .domain([minY, 100])
     .range([INNER_H, 0])
     .nice()
 
-  // 2️⃣ 坐標軸
+  // 2️⃣ 水平背景網格線
+  g.append('g')
+    .attr('class', 'grid-lines')
+    .call(
+      d3.axisLeft(yScale)
+        .ticks(5)
+        .tickSize(-INNER_W)
+        .tickFormat('')
+    )
+    .selectAll('line')
+    .attr('stroke', '#f1f5f9')
+    .attr('stroke-width', 1)
+  g.select('.grid-lines .domain').remove()
+
+  // 3️⃣ 坐標軸
   g.append('g')
     .attr('class', 'x-axis')
     .attr('transform', `translate(0,${INNER_H})`)
@@ -71,146 +107,341 @@ function render() {
     .attr('class', 'y-axis')
     .call(d3.axisLeft(yScale).ticks(5).tickFormat(d => `${d}%`))
 
-  // 3️⃣ 坐標軸標籤
+  // 4️⃣ 坐標軸標籤
   g.append('text')
     .attr('x', INNER_W / 2)
-    .attr('y', INNER_H + 46)
+    .attr('y', INNER_H + 44)
     .attr('text-anchor', 'middle')
-    .attr('fill', '#555')
-    .attr('font-size', '12px')
+    .attr('fill', '#475569')
+    .attr('font-size', '13.5px')
+    .attr('font-weight', '600')
     .text('學年度')
 
   g.append('text')
     .attr('transform', 'rotate(-90)')
     .attr('x', -INNER_H / 2)
-    .attr('y', -50)
+    .attr('y', -46)
     .attr('text-anchor', 'middle')
-    .attr('fill', '#555')
-    .attr('font-size', '12px')
-    .text('平均新生註冊率（%）')
+    .attr('fill', '#475569')
+    .attr('font-size', '13.5px')
+    .attr('font-weight', '600')
+    .text('新生註冊率（%）')
 
-  // 4️⃣ 退場警戒參考線
-  if (props.dangerThreshold >= 50) {
+  // 5️⃣ 退場警戒參考線 (60%)
+  if (props.dangerThreshold >= minY) {
     g.append('line')
       .attr('x1', 0).attr('x2', INNER_W)
       .attr('y1', yScale(props.dangerThreshold))
       .attr('y2', yScale(props.dangerThreshold))
-      .attr('stroke', '#e63946')
-      .attr('stroke-width', 1.2)
-      .attr('stroke-dasharray', '5,4')
+      .attr('stroke', '#ef4444')
+      .attr('stroke-width', 1.5)
+      .attr('stroke-dasharray', '4,4')
   }
 
-  // 5️⃣ 線條生成器
+  // 6️⃣ 線條生成器
   const lineGen = d3.line()
     .x(d => xScale(d.year))
-    .y(d => yScale(d.avgRate))
-    .curve(d3.curveMonotoneX)  // 平滑但不過度插值
+    .y(d => yScale(d.avgRate || d.rate))
+    .curve(d3.curveMonotoneX)
 
-  // 6️⃣ 各設立別繪製折線與資料點
+  // 7️⃣ 繪製公私立平均折線
   for (const ownership of ownerships) {
     const lineData = props.trendData
       .filter(d => d.ownership === ownership)
       .sort((a, b) => Number(a.year) - Number(b.year))
 
-    const color = COLOR_MAP[ownership] ?? '#999'
+    const color = COLOR_MAP[ownership] ?? '#94a3b8'
 
-    // 折線
+    // 平滑折線
     g.append('path')
       .datum(lineData)
       .attr('fill', 'none')
       .attr('stroke', color)
-      .attr('stroke-width', 2.2)
+      .attr('stroke-width', 2.5)
+      .attr('stroke-opacity', props.schoolHistory.length ? 0.45 : 0.9)
       .attr('d', lineGen)
 
-    // 資料點（圓點）
+    // 資料點
     g.selectAll(`.dot-${ownership}`)
       .data(lineData)
       .join('circle')
       .attr('class', `dot-${ownership}`)
       .attr('cx', d => xScale(d.year))
       .attr('cy', d => yScale(d.avgRate))
-      .attr('r', d => d.year === props.selectedYear ? 7 : 4)
-      .attr('fill', d => d.year === props.selectedYear ? color : '#fff')
+      .attr('r', d => d.year === props.selectedYear ? 6 : 3.5)
+      .attr('fill', d => d.year === props.selectedYear ? color : '#ffffff')
       .attr('stroke', color)
-      .attr('stroke-width', 2)
+      .attr('stroke-width', d => d.year === props.selectedYear ? 2.5 : 1.8)
+      .attr('stroke-opacity', props.schoolHistory.length ? 0.5 : 1)
 
-    // 末端標籤（最後一年顯示平均值）
+    // 末端標籤 (12.5px 粗體)
     const last = lineData[lineData.length - 1]
     if (last) {
       g.append('text')
         .attr('x', xScale(last.year) + 10)
         .attr('y', yScale(last.avgRate) + 4)
-        .attr('font-size', '11.5px')
+        .attr('font-size', '12.5px')
         .attr('fill', color)
-        .attr('font-weight', '600')
-        .text(`${ownership} ${last.avgRate?.toFixed(1)}%`)
+        .attr('font-weight', '700')
+        .attr('opacity', props.schoolHistory.length ? 0.6 : 1)
+        .text(`${ownership}均 ${last.avgRate?.toFixed(1)}%`)
     }
   }
 
-  // 7️⃣ 高亮選取學年度的垂直線
-  if (xScale(props.selectedYear)) {
+  // 8️⃣ 🌟 若選取了特定學校，繪製專屬第三條歷史軌跡！
+  if (props.schoolHistory.length > 1) {
+    const schoolColor = '#7c3aed' // 鮮明紫色專屬標記
+
+    // 專屬折線
+    g.append('path')
+      .datum(props.schoolHistory)
+      .attr('fill', 'none')
+      .attr('stroke', schoolColor)
+      .attr('stroke-width', 3.2)
+      .attr('d', lineGen)
+
+    // 專屬資料點
+    g.selectAll('.dot-school')
+      .data(props.schoolHistory)
+      .join('circle')
+      .attr('class', 'dot-school')
+      .attr('cx', d => xScale(d.year))
+      .attr('cy', d => yScale(d.rate))
+      .attr('r', d => d.year === props.selectedYear ? 8 : 5)
+      .attr('fill', schoolColor)
+      .attr('stroke', '#ffffff')
+      .attr('stroke-width', 2.2)
+
+    // 末端專屬標籤
+    const lastSchool = props.schoolHistory[props.schoolHistory.length - 1]
+    if (lastSchool) {
+      g.append('text')
+        .attr('x', xScale(lastSchool.year) + 10)
+        .attr('y', yScale(lastSchool.rate) - 6)
+        .attr('font-size', '13px')
+        .attr('fill', schoolColor)
+        .attr('font-weight', '700')
+        .text(`★ ${cleanName(props.selectedSchool)} ${lastSchool.rate?.toFixed(1)}%`)
+    }
+  }
+
+  // 9️⃣ 選取學年度的垂直指示線
+  const curX = xScale(props.selectedYear)
+  if (curX !== undefined) {
     g.append('line')
-      .attr('x1', xScale(props.selectedYear))
-      .attr('x2', xScale(props.selectedYear))
+      .attr('x1', curX)
+      .attr('x2', curX)
       .attr('y1', 0)
       .attr('y2', INNER_H)
-      .attr('stroke', '#aaa')
-      .attr('stroke-width', 1)
-      .attr('stroke-dasharray', '4,3')
+      .attr('stroke', '#64748b')
+      .attr('stroke-width', 1.5)
+      .attr('stroke-dasharray', '3,3')
   }
 }
 
-watch(() => [props.trendData, props.selectedYear], render, { deep: false })
+watch(() => [props.trendData, props.selectedYear, props.schoolHistory, props.selectedSchool], render, { deep: false })
 onMounted(render)
 </script>
 
 <template>
-  <div class="trendline-container">
-    <h3 class="chart-title">
-      公私立大專院校平均新生註冊率趨勢
-      <span class="subtitle">（106 ～ 114 學年度）</span>
-    </h3>
-    <svg
-      ref="svgRef"
-      :width="640"
-      :height="280"
-      viewBox="0 0 640 280"
-      style="display: block; max-width: 100%"
-    />
+  <div class="trend-card">
+    <div class="card-header">
+      <div>
+        <h3 class="chart-title">歷年註冊率走勢與命運分歧</h3>
+        <p class="chart-subtitle">
+          <span v-if="selectedSchool" class="active-school-text">
+            已鎖定：<strong>{{ cleanName(selectedSchool) }}</strong> 9 年歷年走勢對照
+          </span>
+          <span v-else>
+            106 ～ 114 學年度全台大專公私立平均對比
+          </span>
+        </p>
+      </div>
+      <button
+        v-if="selectedSchool"
+        class="clear-school-btn"
+        @click="$emit('clear-school')"
+      >
+        ✕ 重設鎖定
+      </button>
+    </div>
+
+    <div class="canvas-wrapper">
+      <svg
+        ref="svgRef"
+        :width="1000"
+        :height="300"
+        viewBox="0 0 1000 300"
+        class="chart-svg"
+      />
+    </div>
+
+    <div class="trend-insight">
+      <div v-if="selectedSchool && schoolHistory.length" class="school-insight-box">
+        <span class="box-tag">鎖定校觀察</span>
+        <span class="box-text">
+          {{ cleanName(selectedSchool) }} 在 {{ selectedYear }} 學年度註冊率為
+          <strong>{{ (schoolHistory.find(d => d.year === selectedYear)?.rate ?? 0).toFixed(2) }}%</strong>
+        </span>
+      </div>
+      <div v-else class="default-insight">
+        <div class="insight-row">
+          <span class="badge-public">公立大學</span>
+          <span class="insight-text">穩定維持在 <strong>90%～95%</strong> 高原，幾乎不受少子化波及</span>
+        </div>
+        <div class="insight-row">
+          <span class="badge-private">私立大學</span>
+          <span class="insight-text">歷經劇烈震盪，111~112 學年度一度跌至 <strong>79.6%</strong> 低谷</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.trendline-container {
-  background: #fff;
-  border-radius: 10px;
-  padding: 20px 24px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+.trend-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -2px rgba(0, 0, 0, 0.02);
+  padding: 24px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
 }
 
 .chart-title {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 700;
-  color: #2c3e50;
-  margin: 0 0 12px 0;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+  letter-spacing: -0.01em;
 }
 
-.subtitle {
+.chart-subtitle {
+  font-size: 14px;
+  color: #475569;
+  margin: 0;
+}
+
+.active-school-text strong {
+  color: #7c3aed;
+}
+
+.clear-school-btn {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  font-size: 12.5px;
+  padding: 4px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.clear-school-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.canvas-wrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.chart-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.trend-insight {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.school-insight-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #faf5ff;
+  border: 1px solid #e9d5ff;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #581c87;
+}
+
+.box-tag {
+  background: #7c3aed;
+  color: #ffffff;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.box-text strong {
+  color: #7c3aed;
+  font-size: 15px;
+}
+
+.default-insight {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.insight-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+}
+
+.badge-public,
+.badge-private {
   font-size: 12px;
-  font-weight: 400;
-  color: #888;
-  margin-left: 6px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.badge-public {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.badge-private {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.insight-text {
+  color: #475569;
+}
+
+.insight-text strong {
+  color: #0f172a;
 }
 
 :deep(.x-axis text),
 :deep(.y-axis text) {
-  font-size: 10.5px;
-  fill: #666;
+  font-size: 13px;
+  font-weight: 500;
+  fill: #475569;
 }
+
 :deep(.x-axis path),
 :deep(.y-axis path),
 :deep(.x-axis line),
 :deep(.y-axis line) {
-  stroke: #e0e0e0;
+  stroke: #cbd5e1;
 }
 </style>

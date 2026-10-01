@@ -111,11 +111,43 @@ export function useEnrollmentData() {
   })
 
   /**
+   * 🏷️ 簡化過長法人名稱，提升 UI 易讀性
+   */
+  function cleanSchoolName(name) {
+    if (!name) return ''
+    return name
+      .replace(/學校財團法人/g, '')
+      .replace(/財團法人/g, '')
+      .replace(/(.+?)\1+/g, '$1') // 移除重複名稱如 輔仁大學輔仁大學 -> 輔仁大學
+      .trim()
+  }
+
+  /**
    * 📊 依學年度篩選資料（供散佈圖使用）
    * @param {string} year 學年度字串，例如 '114'
    */
   function getDataByYear(year) {
     return allData.value.filter(d => d.year === year)
+  }
+
+  /**
+   * 🔍 取得特定學校在 106~114 全部學年度的歷史軌跡
+   */
+  function getSchoolHistory(schoolName) {
+    if (!schoolName) return []
+    return allData.value
+      .filter(d => d.schoolName === schoolName && d.rate !== null)
+      .sort((a, b) => Number(a.year) - Number(b.year))
+      .map(d => ({
+        year: d.year,
+        rate: d.rate,
+        quota: d.quota,
+        enrolled: d.enrolled,
+        deficit: d.deficit,
+        crisisLevel: d.crisisLevel,
+        schoolName: d.schoolName,
+        ownership: d.ownership,
+      }))
   }
 
   // 📈 折線圖資料：各學年度 × 設立別 的平均註冊率
@@ -147,6 +179,8 @@ export function useEnrollmentData() {
     allData,
     availableYears,
     getDataByYear,
+    getSchoolHistory,
+    cleanSchoolName,
     trendData,
     THRESHOLD_DANGER,
     THRESHOLD_WARNING,
