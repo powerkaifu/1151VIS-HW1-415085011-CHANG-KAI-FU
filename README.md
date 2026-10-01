@@ -184,6 +184,17 @@
 
 ### 🎨 Level 3：How —— 視覺編碼與互動設計（Visual & Interaction Idiom）
 
+#### 💡 圖表選型決策理由（Chart Selection Rationale）
+
+1. **主圖選用散佈圖（Scatter Plot）**：
+   - **資料與通道匹配**：本資料集每所學校具備「核定招生名額（規模量體）」與「新生註冊率（核心指標）」兩個連續定量數值（2 Quantitative Values）。散佈圖利用空間位置（人類視覺效能最高的通道），能在一張圖中同時呈現公私立兩群體的聚集分佈，並立即辨識出落在 60% 關注線以下的個別學校（對應 Task 1 & Task 2），避免長條圖在 100 多所學校時的擁擠與單一維度限制。
+2. **副圖選用折線圖（Line Chart）**：
+   - **時間序列表達**：資料跨越 106 至 114 學年度（1 Ordered Temporal Key + 1 Quantitative Value）。折線的斜率與走勢能直觀呈現公私立平均註冊率的長期變化，並支援個別鎖定學校的走勢疊加（對應 Task 3 & Task 4）。
+3. **多視圖協同（Linked Views）**：
+   - 單一截面圖無法觀察時間趨勢，而若在一張折線圖同時畫出 100 多所學校則會形成雜亂難辨的「義大利麵圖（Spaghetti Plot）」。因此採用「散佈圖（當年度分佈）＋ 折線圖（歷年走勢）」的雙圖聯動設計，兼顧截面全景與歷史縱深。
+
+---
+
 本專案從 **Encode（編碼）**、**Juxtapose & Coordinate（多視圖協同）** 與 **Reduce/Manipulate（互動操作）** 三大面向系統化建構：
 
 #### 1. How to Encode —— 視覺通道設計（Visual Encoding）
