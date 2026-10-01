@@ -201,18 +201,6 @@ function clearSelectedSchool() {
 					</div>
 				</div>
 
-				<div class="kpi-card danger" :class="{ active: filterType === 'danger' }" @click="filterType = 'danger'">
-					<div class="kpi-header">
-						<span class="kpi-title">未達 60% 學校</span>
-						<span class="kpi-pill red">關注門檻</span>
-					</div>
-					<div class="kpi-value-row">
-						<span class="kpi-num text-danger">{{ summaryStats.dangerSchools }}</span>
-						<span class="kpi-unit">所</span>
-					</div>
-					<div class="kpi-desc">點擊可於圖表篩選關注校</div>
-				</div>
-
 				<div class="kpi-card highlight" :class="{ active: filterType === 'public' }" @click="filterType = 'public'">
 					<div class="kpi-header">
 						<span class="kpi-title">公立大學平均</span>
@@ -235,6 +223,18 @@ function clearSelectedSchool() {
 						<span class="kpi-unit">%</span>
 					</div>
 					<div class="kpi-desc">與公立差距達 {{ summaryStats.gap }} 個百分點</div>
+				</div>
+
+				<div class="kpi-card danger" :class="{ active: filterType === 'danger' }" @click="filterType = 'danger'">
+					<div class="kpi-header">
+						<span class="kpi-title">未達 60% 學校</span>
+						<span class="kpi-pill red">關注門檻</span>
+					</div>
+					<div class="kpi-value-row">
+						<span class="kpi-num text-danger">{{ summaryStats.dangerSchools }}</span>
+						<span class="kpi-unit">所</span>
+					</div>
+					<div class="kpi-desc">點擊可於圖表篩選關注校</div>
 				</div>
 			</section>
 
@@ -555,16 +555,6 @@ body {
 	border-color: #2563eb;
 	border-left-color: #2563eb;
 	background: #eff6ff;
-}
-
-.kpi-card.danger {
-	border-left: 4px solid #ef4444;
-}
-.kpi-card.warning {
-	border-left: 4px solid #f59e0b;
-}
-.kpi-card.highlight {
-	border-left: 4px solid #2563eb;
 }
 
 .kpi-header {
