@@ -287,11 +287,11 @@ onMounted(render)
       <div v-else class="default-insight">
         <div class="insight-row">
           <span class="badge-public">公立大學</span>
-          <span class="insight-text">穩定維持在 <strong>90%～95%</strong> 高原，幾乎不受少子化波及</span>
+          <span class="insight-text">穩定維持在 <strong>90%～95%</strong> 水平，各年度招生註冊率高度穩定</span>
         </div>
         <div class="insight-row">
           <span class="badge-private">私立大學</span>
-          <span class="insight-text">歷經劇烈震盪，111~112 學年度一度跌至 <strong>79.6%</strong> 低谷</span>
+          <span class="insight-text">平均註冊率變動較大，111~112 學年度曾出現 <strong>79.6%</strong> 之相對低點</span>
         </div>
       </div>
     </div>

@@ -83,7 +83,7 @@ const summaryStats = computed(() => {
 const editorialInsight = computed(() => {
 	if (!summaryStats.value) return ''
 	const s = summaryStats.value
-	return `${selectedYear.value} 學年度全台共 ${s.totalSchools} 所大專校院，公立大學（${s.publicSchools} 所）平均註冊率達 ${s.pubAvg}% 穩如磐石，無一所跌破警戒線；反觀私立學校（${s.privateSchools} 所）平均為 ${s.priAvg}%，兩者落差達 ${s.gap} 個百分點，更有 ${s.dangerSchools} 所私校跌破 60% 退場警戒門檻，凸顯生源緊縮下公私立兩極化的生存鴻溝。`
+	return `${selectedYear.value} 學年度全台共 ${s.totalSchools} 所大專校院，公立學校（${s.publicSchools} 所）平均註冊率達 ${s.pubAvg}%，全數維持在 85% 以上；私立學校（${s.privateSchools} 所）平均為 ${s.priAvg}%，兩者平均落差達 ${s.gap} 個百分點，其中有 ${s.dangerSchools} 所學校新生註冊率未達 60% 關注門檻。`
 })
 
 // 📈 當前選定學校的 9 年歷史資料
@@ -145,8 +145,8 @@ function clearSelectedSchool() {
 							教育部校務資訊公開平臺 (學12-3) ↗
 						</a>
 					</div>
-					<h1 class="page-title">少子化浪潮下的大專院校招生衝擊</h1>
-					<p class="page-subtitle">106 ～ 114 學年度全台大專校院新生註冊率、公私立存續鴻溝與退場警戒全景觀察</p>
+					<h1 class="page-title">臺灣大專校院新生註冊率視覺化分析</h1>
+					<p class="page-subtitle">106 ～ 114 學年度全台大專校院新生註冊率、公私立分布特徵與長期變化趨勢</p>
 				</div>
 				<div class="author-meta">
 					<div class="course-label">資料分析與視覺化應用 · HW01</div>
@@ -196,14 +196,14 @@ function clearSelectedSchool() {
 
 				<div class="kpi-card danger" :class="{ active: filterType === 'danger' }" @click="filterType = 'danger'">
 					<div class="kpi-header">
-						<span class="kpi-title">退場警戒學校</span>
-						<span class="kpi-pill red">&lt; 60% 門檻</span>
+						<span class="kpi-title">未達 60% 學校</span>
+						<span class="kpi-pill red">關注門檻</span>
 					</div>
 					<div class="kpi-value-row">
 						<span class="kpi-num text-danger">{{ summaryStats.dangerSchools }}</span>
 						<span class="kpi-unit">所</span>
 					</div>
-					<div class="kpi-desc">點擊可於圖表過濾警戒校</div>
+					<div class="kpi-desc">點擊可於圖表篩選關注校</div>
 				</div>
 
 				<div class="kpi-card highlight" :class="{ active: filterType === 'public' }" @click="filterType = 'public'">
@@ -263,7 +263,7 @@ function clearSelectedSchool() {
 								:class="{ active: filterType === 'danger' }"
 								@click="filterType = 'danger'"
 							>
-								⚠️ 警戒校 (&lt;60%)
+								⚠️ 未達 60%
 							</button>
 						</div>
 					</div>

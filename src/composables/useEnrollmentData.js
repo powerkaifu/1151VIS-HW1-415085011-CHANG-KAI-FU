@@ -10,9 +10,9 @@ export const COLOR_MAP = {
   '私立': '#f46d43', // 橘色
 }
 
-// 🔖 危機分級閾值
-const THRESHOLD_DANGER  = 60  // 退場警戒
-const THRESHOLD_WARNING = 80  // 需關注
+// 🔖 視覺化關注門檻（參考歷史私校輔導指標，非單一年度即法定退場）
+const THRESHOLD_DANGER  = 60  // 未達 60% 關注門檻
+const THRESHOLD_WARNING = 80  // 80% 基準線
 
 /**
  * 🔧 將原始 CSV 字串中的千分位數值轉為 Number
@@ -25,15 +25,15 @@ function parseNum(str) {
 }
 
 /**
- * 🔧 計算危機分級（Derive 衍生屬性）
+ * 🔧 註冊率區間標記（Derive 衍生屬性，採客觀中性數值區間）
  * @param {number|null} rate 新生註冊率
- * @returns {'退場警戒'|'需關注'|'健康'|'未知'}
+ * @returns {'未達 60%'|'60% ~ 80%'|'80% 以上'|'無資料'}
  */
 function calcCrisisLevel(rate) {
-  if (rate === null) return '未知'
-  if (rate < THRESHOLD_DANGER)  return '退場警戒'
-  if (rate < THRESHOLD_WARNING) return '需關注'
-  return '健康'
+  if (rate === null) return '無資料'
+  if (rate < THRESHOLD_DANGER)  return '未達 60%'
+  if (rate < THRESHOLD_WARNING) return '60% ~ 80%'
+  return '80% 以上'
 }
 
 /**
@@ -69,7 +69,7 @@ export function useEnrollmentData() {
         // 🚨 過濾掉無效資料（無名額或無學校名稱）
         if (!quota || !row['學校名稱']) return null
 
-        // ✅ 衍生指標
+        // ✅ 衍生指標：本地核定與註冊差額 (A - C，非教育部官方含境外生之缺額定義)
         const deficit      = (quota !== null && enrolled !== null) ? quota - enrolled : null
         const crisisLevel  = calcCrisisLevel(rate)
         const year         = row['學年度']?.trim()

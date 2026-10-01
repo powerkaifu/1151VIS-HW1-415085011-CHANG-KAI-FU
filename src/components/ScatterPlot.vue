@@ -166,7 +166,7 @@ function render() {
     .attr('fill', '#dc2626')
     .attr('font-size', '13px')
     .attr('font-weight', '700')
-    .text(`⚠️ 教育部退場警戒線 ${props.dangerThreshold}%`)
+    .text(`⚠️ 關注門檻 ${props.dangerThreshold}%（參考歷史私校輔導指標）`)
 
   // 6️⃣ 工具函式：Tooltip 與焦點管理
   const tooltip = d3.select(tooltipRef.value)
@@ -190,7 +190,7 @@ function render() {
           <span class="tip-val">${d.quota?.toLocaleString()} 人</span>
           <span class="tip-lbl">實際註冊</span>
           <span class="tip-val">${d.enrolled?.toLocaleString()} 人</span>
-          <span class="tip-lbl">招生缺額</span>
+          <span class="tip-lbl">名額差額 (A-C)</span>
           <span class="tip-val">${d.deficit !== null ? (d.deficit > 0 ? `-${d.deficit.toLocaleString()}` : '0') : '無'} 人</span>
         </div>
         <div class="tip-action-hint">👆 點擊即可鎖定查看 9 年歷年軌跡</div>
@@ -284,8 +284,8 @@ function render() {
 }
 
 function getBadgeMeta(level) {
-  if (level === '退場警戒') return { bg: '#fee2e2', color: '#991b1b' }
-  if (level === '需關注')   return { bg: '#fef3c7', color: '#92400e' }
+  if (level === '未達 60%') return { bg: '#fee2e2', color: '#991b1b' }
+  if (level === '60% ~ 80%') return { bg: '#fef3c7', color: '#92400e' }
   return { bg: '#dcfce7', color: '#166534' }
 }
 
@@ -316,7 +316,7 @@ onMounted(render)
           </span>
           <span class="legend-item">
             <span class="legend-line danger"></span>
-            60% 警戒線
+            60% 關注線
           </span>
         </div>
         <div class="status-indicator">
