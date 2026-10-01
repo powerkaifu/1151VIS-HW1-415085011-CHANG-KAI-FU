@@ -144,7 +144,7 @@ export function useEnrollmentData() {
         quota: d.quota,
         enrolled: d.enrolled,
         deficit: d.deficit,
-        crisisLevel: d.crisisLevel,
+        rateGroup: d.rateGroup,
         schoolName: d.schoolName,
         ownership: d.ownership,
       }))
