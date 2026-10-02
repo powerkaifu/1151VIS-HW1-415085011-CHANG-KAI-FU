@@ -184,7 +184,7 @@ function render() {
         .attr('fill', color)
         .attr('font-weight', '700')
         .attr('opacity', props.schoolHistory.length ? 0.6 : 1)
-        .text(`${ownership}均 ${last.avgRate?.toFixed(1)}%`)
+        .text(`${ownership}平均 ${last.avgRate?.toFixed(1)}%`)
     }
   }
 
