@@ -356,13 +356,6 @@ onMounted(render)
         class="modern-tooltip"
       />
     </div>
-
-    <!-- 底部數據註腳 -->
-    <div class="card-footer">
-      <div class="footnote">
-        * 資料來源：教育部大專校院校務資訊公開平臺（新生註冊率以全校總量計算，官方最高以 100% 計）
-      </div>
-    </div>
   </div>
 </template>
 
@@ -601,17 +594,6 @@ onMounted(render)
   font-size: 12px;
   color: #93c5fd;
   text-align: center;
-}
-
-.card-footer {
-  margin-top: 16px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  font-size: 13px;
-  color: #64748b;
-  border-top: 1px solid #f1f5f9;
-  padding-top: 12px;
 }
 
 :deep(.x-axis text),
