@@ -238,6 +238,11 @@ function clearSelectedSchool() {
 				</div>
 			</section>
 
+			<!-- 📍 Section Divider：區隔摘要與操作功能區 -->
+			<div class="section-divider">
+				<span class="section-divider-label">🎛️ 篩選與探索</span>
+			</div>
+
 			<!-- 🎛️ 綜合控制列（學年度 + 膠囊過濾 + 學校搜尋探針） -->
 			<section class="toolbar-card">
 				<div class="toolbar-left">
@@ -370,11 +375,10 @@ body {
 	flex-direction: column;
 }
 
-/* 頁頭 */
+/* 頁頭 Hero 區塊（深色漸層主視覺） */
 .app-header {
-	background: #ffffff;
-	border-bottom: 1px solid #e2e8f0;
-	padding: 24px 0;
+	background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 60%, #1d4ed8 100%);
+	padding: 36px 0 32px;
 }
 
 .header-content {
@@ -397,8 +401,8 @@ body {
 }
 
 .category-badge {
-	background: #eff6ff;
-	color: #2563eb;
+	background: rgba(255, 255, 255, 0.15);
+	color: #bfdbfe;
 	font-size: 13px;
 	font-weight: 700;
 	padding: 4px 10px;
@@ -409,37 +413,38 @@ body {
 	display: inline-flex;
 	align-items: center;
 	gap: 3px;
-	background: #f1f5f9;
-	color: #475569;
+	background: rgba(255, 255, 255, 0.1);
+	color: #e0f2fe;
 	font-size: 13px;
 	font-weight: 500;
 	padding: 4px 10px;
 	border-radius: 4px;
 	text-decoration: none;
-	border: 1px solid #e2e8f0;
+	border: 1px solid rgba(255, 255, 255, 0.2);
 	transition: all 0.15s ease;
 	cursor: pointer;
 }
 
 .source-badge:hover {
-	background: #e2e8f0;
-	color: #1d4ed8;
-	border-color: #cbd5e1;
+	background: rgba(255, 255, 255, 0.2);
+	color: #ffffff;
+	border-color: rgba(255, 255, 255, 0.35);
 	text-decoration: none;
 	transform: translateY(-1px);
 }
 
 .page-title {
-	font-size: 28px;
+	font-size: 30px;
 	font-weight: 800;
-	color: #0f172a;
-	margin: 0 0 8px 0;
+	color: #ffffff;
+	margin: 0 0 10px 0;
 	letter-spacing: -0.02em;
+	text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 .page-subtitle {
 	font-size: 15px;
-	color: #475569;
+	color: #bfdbfe;
 	margin: 0;
 	max-width: 840px;
 	line-height: 1.6;
@@ -452,11 +457,11 @@ body {
 
 .course-label {
 	font-weight: 600;
-	color: #334155;
+	color: #e0f2fe;
 }
 
 .student-info {
-	color: #64748b;
+	color: #93c5fd;
 	margin-top: 4px;
 	font-variant-numeric: tabular-nums;
 }
@@ -629,6 +634,31 @@ body {
 }
 .text-primary {
 	color: #2563eb !important;
+}
+
+/* 📍 Section Divider（區塊分隔標題） */
+.section-divider {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin: 4px 0 16px;
+}
+
+.section-divider::before,
+.section-divider::after {
+	content: '';
+	flex: 1;
+	height: 1px;
+	background: #e2e8f0;
+}
+
+.section-divider-label {
+	font-size: 12px;
+	font-weight: 700;
+	color: #94a3b8;
+	letter-spacing: 0.06em;
+	white-space: nowrap;
+	text-transform: uppercase;
 }
 
 /* 🎛️ 綜合工具列 */
