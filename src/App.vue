@@ -364,7 +364,7 @@ body {
 /* 頁頭 Hero 區塊（深色漸層主視覺） */
 .app-header {
 	background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 60%, #1d4ed8 100%);
-	padding: 36px 0 32px;
+	padding: 48px 0;
 }
 
 .header-content {
@@ -755,11 +755,11 @@ body {
 	margin: 0;
 }
 
-/* 頁尾 */
+/* 頁尾（方案 A：深色呼應風格） */
 .app-footer {
-	background: #ffffff;
-	border-top: 1px solid #e2e8f0;
-	padding: 24px 0;
+	background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+	border-top: 1px solid rgba(255, 255, 255, 0.08);
+	padding: 36px 0;
 	margin-top: auto;
 }
 
@@ -779,18 +779,18 @@ body {
 }
 
 .footer-source {
-	color: #64748b;
+	color: #cbd5e1;
 }
 
 .footer-link {
-	color: #2563eb;
+	color: #60a5fa;
 	text-decoration: none;
 	font-weight: 500;
 	transition: color 0.15s ease;
 }
 
 .footer-link:hover {
-	color: #1d4ed8;
+	color: #93c5fd;
 	text-decoration: underline;
 }
 </style>
