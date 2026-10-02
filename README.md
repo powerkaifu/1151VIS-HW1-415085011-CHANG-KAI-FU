@@ -2,8 +2,8 @@
 
 - **課程**：資料分析與視覺化應用
 - **學號姓名**：415085011 張凱富
-- **GitHub**：[1151VIS-HW1-415085011-CHANG-KAI-FU](https://github.com/powerkaifu/1151VIS-HW1-415085011-CHANG-KAI-FU)
 - **網站位置**：[台灣大專校院新生註冊率視覺化分析](https://powerkaifu.github.io/1151VIS-HW1-415085011-CHANG-KAI-FU/)
+- **影片網址**：[專案展示影片](https://youtu.be/h4qLvrDxdoE)
 
 ## 📸 專案執行成果展示
 
