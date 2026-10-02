@@ -6,9 +6,11 @@
 
 ---
 
-## 📸 專案執行成果展示
+## 連結
 
-<!-- 待完成後截圖放入 docs/screenshot.png -->
+- [Github Page](https://powerkaifu.github.io/1151VIS-HW1-415085011-CHANG-KAI-FU/)
+
+## 📸 專案執行成果展示
 
 ![專案主要視覺化成果畫面](./docs/screenshot.png)
 
