@@ -1,8 +1,8 @@
 import { ref, computed } from 'vue'
 import * as d3 from 'd3'
 
-// 📁 CSV 檔案路徑（放在 public/data 目錄，Vite 直接靜態服務）
-const CSV_PATH = '/data/學12-3.新生(含境外生)註冊率-以「校」統計.csv'
+// 📁 CSV 檔案路徑（透過 BASE_URL 自動適配本地開發與 GitHub Pages 子路徑）
+const CSV_PATH = `${import.meta.env.BASE_URL}data/學12-3.新生(含境外生)註冊率-以「校」統計.csv`
 
 // 🎨 設立別顏色對應（藍橘安全配色，色盲友善）
 export const COLOR_MAP = {
