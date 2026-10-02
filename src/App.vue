@@ -238,11 +238,6 @@ function clearSelectedSchool() {
 				</div>
 			</section>
 
-			<!-- 📍 Section Divider：區隔摘要與操作功能區 -->
-			<div class="section-divider">
-				<span class="section-divider-label">🎛️ 篩選與探索</span>
-			</div>
-
 			<!-- 🎛️ 綜合控制列（學年度 + 膠囊過濾 + 學校搜尋探針） -->
 			<section class="toolbar-card">
 				<div class="toolbar-left">
@@ -512,7 +507,7 @@ body {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
 	gap: 18px;
-	margin-bottom: 24px;
+	margin-bottom: 48px;
 }
 
 .kpi-card {
@@ -636,41 +631,17 @@ body {
 	color: #2563eb !important;
 }
 
-/* 📍 Section Divider（區塊分隔標題） */
-.section-divider {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	margin: 4px 0 16px;
-}
-
-.section-divider::before,
-.section-divider::after {
-	content: '';
-	flex: 1;
-	height: 1px;
-	background: #e2e8f0;
-}
-
-.section-divider-label {
-	font-size: 12px;
-	font-weight: 700;
-	color: #94a3b8;
-	letter-spacing: 0.06em;
-	white-space: nowrap;
-	text-transform: uppercase;
-}
-
 /* 🎛️ 綜合工具列 */
 .toolbar-card {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background: #ffffff;
-	padding: 14px 22px;
+	background: #f8fafc;
+	padding: 16px 22px;
 	border-radius: 10px;
 	border: 1px solid #e2e8f0;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+	border-left: 4px solid #2563eb;
+	box-shadow: none;
 	margin-bottom: 24px;
 	flex-wrap: wrap;
 	gap: 16px;
