@@ -325,10 +325,6 @@ onMounted(render)
             60% 關注線
           </span>
         </div>
-        <div class="status-indicator">
-          <span class="live-dot"></span>
-          <span class="live-text">{{ year }} 學年度</span>
-        </div>
       </div>
     </div>
 
@@ -443,24 +439,7 @@ onMounted(render)
   border-top: 2px dashed #ef4444;
 }
 
-.status-indicator {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #f1f5f9;
-  padding: 6px 14px;
-  border-radius: 9999px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #334155;
-}
 
-.live-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #2563eb;
-}
 
 .canvas-wrapper {
   position: relative;
