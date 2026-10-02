@@ -246,7 +246,7 @@ function clearSelectedSchool() {
 						<label for="year-select" class="tool-label">學年度</label>
 						<div class="select-wrapper">
 							<select id="year-select" v-model="selectedYear" class="custom-select">
-								<option v-for="y in availableYears" :key="y" :value="y">{{ y }} 學年度 (民國 {{ y }} 年)</option>
+								<option v-for="y in availableYears" :key="y" :value="y">{{ y }} 學年度</option>
 							</select>
 							<span class="select-arrow">▾</span>
 						</div>
@@ -295,7 +295,7 @@ function clearSelectedSchool() {
 					</p>
 					<!-- 快捷熱門標籤 -->
 					<div class="quick-tags">
-						<span class="tag-hint">快捷:</span>
+						<span class="tag-hint">熱門:</span>
 						<button class="tag-btn" @click="quickPickSchool('臺灣大學')">臺灣大學</button>
 						<button class="tag-btn" @click="quickPickSchool('輔仁大學')">輔仁大學</button>
 						<button class="tag-btn" @click="quickPickSchool('淡江大學')">淡江大學</button>

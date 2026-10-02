@@ -176,7 +176,7 @@ function render() {
     .attr('fill', '#dc2626')
     .attr('font-size', '13px')
     .attr('font-weight', '700')
-    .text(`⚠️ 關注門檻 ${props.dangerThreshold}%（參考歷史私校輔導指標）`)
+    .text(`⚠️ ${props.dangerThreshold}% 關注門檻`)
 
   // 6️⃣ 工具函式：Tooltip 與焦點管理
   const tooltip = d3.select(tooltipRef.value)
@@ -200,7 +200,7 @@ function render() {
           <span class="tip-val">${d.quota?.toLocaleString()} 人</span>
           <span class="tip-lbl">實際註冊</span>
           <span class="tip-val">${d.enrolled?.toLocaleString()} 人</span>
-          <span class="tip-lbl">名額差額 (A-C)</span>
+          <span class="tip-lbl">未足額人數</span>
           <span class="tip-val">${d.deficit !== null ? (d.deficit > 0 ? `-${d.deficit.toLocaleString()}` : '0') : '無'} 人</span>
         </div>
         <div class="tip-action-hint">👆 點擊即可鎖定查看 9 年歷年軌跡</div>
@@ -360,7 +360,7 @@ onMounted(render)
     <!-- 底部數據註腳 -->
     <div class="card-footer">
       <div class="footnote">
-        * 教育部官方公式 E = (C+D) / (A−B+D) × 100%，本圖 Y 軸直接呈現官方公布之學校端新生註冊率；超過 100% 者以 100% 計。
+        * 資料來源：教育部大專校院校務資訊公開平臺（新生註冊率以全校總量計算，官方最高以 100% 計）
       </div>
       <div class="threshold-legend">
         <span class="danger-dot"></span> 低於 60% 門檻學校共
