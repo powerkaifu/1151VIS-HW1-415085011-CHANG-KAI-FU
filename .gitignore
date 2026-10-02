@@ -29,3 +29,8 @@ defense-qa.md
 # Reflection & Walkthrough
 LEARNING_REFLECTION.md
 walkthrough.md
+
+# Office Documents
+*.docx
+*.doc
+~$*
