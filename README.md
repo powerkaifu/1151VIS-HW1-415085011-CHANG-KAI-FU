@@ -7,7 +7,9 @@
 
 ## 📸 專案執行成果展示
 
-![專案主要視覺化成果畫面](./docs/screenshot.png)
+<div align="center">
+  <img src="./docs/screenshot.png" alt="專案主要視覺化成果畫面" style="max-height: 460px; width: auto;" />
+</div>
 
 ---
 

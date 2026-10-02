@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+takeaways
 *.local
 
 # Editor directories and files
@@ -30,7 +31,6 @@ defense-qa.md
 LEARNING_REFLECTION.md
 walkthrough.md
 
-# Office Documents
-*.docx
-*.doc
+# documents
+*.pdf
 ~$*
