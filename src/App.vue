@@ -670,19 +670,19 @@ body {
 	background: #f8fafc;
 	border: 1px solid #cbd5e1;
 	border-radius: 6px;
-	padding: 7px 30px 7px 32px;
+	padding: 8px 32px 8px 34px;
 	font-size: var(--font-sm);
-	width: 220px;
+	width: 280px;
 	color: #0f172a;
-	transition: all 0.15s ease;
+	transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .search-input:focus {
 	outline: none;
 	border-color: #2563eb;
 	background: #ffffff;
-	width: 260px;
-	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+	width: 340px;
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
 .search-clear {
