@@ -418,7 +418,7 @@ body {
 	max-width: 1400px;
 	width: 100%;
 	margin: 0 auto;
-	padding: 28px 32px 52px;
+	padding: 48px 32px 72px;
 	box-sizing: border-box;
 	flex: 1;
 }
