@@ -362,10 +362,6 @@ onMounted(render)
       <div class="footnote">
         * 資料來源：教育部大專校院校務資訊公開平臺（新生註冊率以全校總量計算，官方最高以 100% 計）
       </div>
-      <div class="threshold-legend">
-        <span class="danger-dot"></span> 低於 60% 門檻學校共
-        <strong>{{ data.filter(d => d.rate !== null && d.rate < dangerThreshold).length }}</strong> 所
-      </div>
     </div>
   </div>
 </template>
@@ -610,28 +606,12 @@ onMounted(render)
 .card-footer {
   margin-top: 16px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
   font-size: 13px;
   color: #64748b;
   border-top: 1px solid #f1f5f9;
   padding-top: 12px;
-}
-
-.danger-dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #ef4444;
-  margin-right: 4px;
-}
-
-.threshold-legend strong {
-  color: #ef4444;
-  font-weight: 700;
 }
 
 :deep(.x-axis text),
