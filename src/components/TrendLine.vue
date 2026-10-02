@@ -36,7 +36,7 @@ const props = defineProps({
 const svgRef = ref(null)
 
 // ========== 圖表常數（Margin Convention） ==========
-const MARGIN = { top: 36, right: 75, bottom: 56, left: 62 }
+const MARGIN = { top: 36, right: 38, bottom: 56, left: 62 }
 const WIDTH = 1000
 const HEIGHT = 420
 
