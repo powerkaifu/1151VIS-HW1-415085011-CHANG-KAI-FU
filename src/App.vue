@@ -537,7 +537,6 @@ body {
 	transform: translateY(-3px);
 	box-shadow: 0 8px 20px -4px rgba(239, 68, 68, 0.18);
 	border-color: #ef4444;
-	border-left-color: #ef4444;
 	background: #fff5f5;
 }
 
@@ -545,7 +544,6 @@ body {
 	transform: translateY(-3px);
 	box-shadow: 0 8px 20px -4px rgba(245, 158, 11, 0.18);
 	border-color: #f59e0b;
-	border-left-color: #f59e0b;
 	background: #fffbeb;
 }
 
@@ -553,7 +551,6 @@ body {
 	transform: translateY(-3px);
 	box-shadow: 0 8px 20px -4px rgba(37, 99, 235, 0.18);
 	border-color: #2563eb;
-	border-left-color: #2563eb;
 	background: #eff6ff;
 }
 
@@ -640,7 +637,6 @@ body {
 	padding: 16px 22px;
 	border-radius: 10px;
 	border: 1px solid #e2e8f0;
-	border-left: 4px solid #2563eb;
 	box-shadow: none;
 	margin-bottom: 24px;
 	flex-wrap: wrap;
