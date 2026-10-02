@@ -3,7 +3,6 @@
 > **課程**：資料分析與視覺化應用
 > **學號姓名**：415085011 張凱富
 > **GitHub**：[1151VIS-HW1-415085011-CHANG-KAI-FU](https://github.com/415085011/1151VIS-HW1-415085011-CHANG-KAI-FU)
-> **學習心得與反思**：[LEARNING_REFLECTION.md](./LEARNING_REFLECTION.md)
 
 ---
 
