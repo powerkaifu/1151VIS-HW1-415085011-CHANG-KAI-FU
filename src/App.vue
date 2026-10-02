@@ -99,8 +99,6 @@ function handleSelectSchool(schoolName) {
 	searchQuery.value = cleanSchoolName(schoolName)
 }
 
-
-
 // 搜尋輸入監聽
 function handleSearchInput() {
 	searchNoResult.value = false
@@ -273,7 +271,6 @@ function clearSelectedSchool() {
 					</div>
 					<!-- 🆕 搜尋無結果提示 -->
 					<p v-if="searchNoResult" class="search-no-result">找不到「{{ searchQuery }}」，請確認校名是否正確</p>
-
 				</div>
 			</section>
 
@@ -311,12 +308,12 @@ function clearSelectedSchool() {
 				<p>1151VIS-HW1 資料分析與視覺化應用 · Tamara Munzner 四層巢狀模型實踐作業</p>
 				<p class="footer-source">
 					資料來源：<a
-						href="https://udb.moe.edu.tw/"
+						href="https://udb.moe.edu.tw/udata/DetailReportList/%E5%AD%B8%E7%94%9F%E9%A1%9E"
 						target="_blank"
 						rel="noopener noreferrer"
 						class="footer-link"
 						title="前往教育部大專校院校務資訊公開平臺"
-						>教育部校務資訊公開平臺 (學12-3) ↗</a
+						>教育部校務資訊公開平臺 (學12-3)</a
 					>
 				</p>
 			</div>
@@ -327,13 +324,13 @@ function clearSelectedSchool() {
 <style>
 :root {
 	/* 🔤 全域字階原生變數系統（最小字體 14px） */
-	--font-xs: 14px;      /* 基準底線：座標軸刻度、圖例、Tooltip 細項、微型標籤、頁尾 */
-	--font-sm: 15px;      /* 次要正文：控制項輸入文字、下拉選單、卡片描述、頁面副標 */
-	--font-base: 16px;    /* 主要正文：導讀文章、操作標籤 Label、膠囊按鈕 */
-	--font-md: 18px;      /* 卡片標題、重點區塊標題 */
-	--font-lg: 20px;      /* 強調標題、次級大標 */
-	--font-xl: 30px;      /* 頁面大標題 (Page Title) */
-	--font-stat: 36px;    /* KPI 指標核心大數值 */
+	--font-xs: 14px; /* 基準底線：座標軸刻度、圖例、Tooltip 細項、微型標籤、頁尾 */
+	--font-sm: 15px; /* 次要正文：控制項輸入文字、下拉選單、卡片描述、頁面副標 */
+	--font-base: 16px; /* 主要正文：導讀文章、操作標籤 Label、膠囊按鈕 */
+	--font-md: 18px; /* 卡片標題、重點區塊標題 */
+	--font-lg: 20px; /* 強調標題、次級大標 */
+	--font-xl: 30px; /* 頁面大標題 (Page Title) */
+	--font-stat: 36px; /* KPI 指標核心大數值 */
 }
 
 *,
@@ -382,8 +379,6 @@ body {
 	flex-wrap: wrap;
 	gap: 16px;
 }
-
-
 
 .page-title {
 	font-size: var(--font-xl);
@@ -720,8 +715,6 @@ body {
 	}
 }
 
-
-
 /* 核心視覺化雙圖佈局（上下縱向全寬排列，呼吸感充足） */
 .charts-layout {
 	display: grid;
@@ -800,6 +793,4 @@ body {
 	color: #1d4ed8;
 	text-decoration: underline;
 }
-
-
 </style>
