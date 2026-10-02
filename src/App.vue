@@ -99,13 +99,7 @@ function handleSelectSchool(schoolName) {
 	searchQuery.value = cleanSchoolName(schoolName)
 }
 
-// 快速標籤點擊
-function quickPickSchool(keyword) {
-	const found = currentYearData.value.find((d) => d.schoolName.includes(keyword))
-	if (found) {
-		handleSelectSchool(found.schoolName)
-	}
-}
+
 
 // 搜尋輸入監聽
 function handleSearchInput() {
@@ -279,13 +273,7 @@ function clearSelectedSchool() {
 					</div>
 					<!-- 🆕 搜尋無結果提示 -->
 					<p v-if="searchNoResult" class="search-no-result">找不到「{{ searchQuery }}」，請確認校名是否正確</p>
-					<!-- 快捷熱門標籤 -->
-					<div class="quick-tags">
-						<span class="tag-hint">熱門:</span>
-						<button class="tag-btn" @click="quickPickSchool('臺灣大學')">臺灣大學</button>
-						<button class="tag-btn" @click="quickPickSchool('輔仁大學')">輔仁大學</button>
-						<button class="tag-btn" @click="quickPickSchool('淡江大學')">淡江大學</button>
-					</div>
+
 				</div>
 			</section>
 
@@ -721,34 +709,7 @@ body {
 	}
 }
 
-/* 快捷標籤 */
-.quick-tags {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-}
 
-.tag-hint {
-	font-size: 12.5px;
-	color: #64748b;
-}
-
-.tag-btn {
-	background: #f1f5f9;
-	border: 1px solid #e2e8f0;
-	border-radius: 4px;
-	font-size: 12.5px;
-	padding: 4px 8px;
-	color: #334155;
-	cursor: pointer;
-	transition: all 0.15s ease;
-}
-
-.tag-btn:hover {
-	background: #e2e8f0;
-	color: #0f172a;
-	border-color: #cbd5e1;
-}
 
 /* 核心視覺化雙圖佈局（上下縱向全寬排列，呼吸感充足） */
 .charts-layout {
