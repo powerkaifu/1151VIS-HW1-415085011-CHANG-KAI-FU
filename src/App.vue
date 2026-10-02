@@ -550,17 +550,17 @@ body {
 	color: #2563eb !important;
 }
 
-/* 🎛️ 綜合工具列 */
+/* 🎛️ 綜合工具列（Hero 深色控制台） */
 .toolbar-card {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background: #f8fafc;
-	padding: 16px 22px;
-	border-radius: 10px;
-	border: 1px solid #e2e8f0;
-	box-shadow: none;
-	margin-bottom: 24px;
+	background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 60%, #1d4ed8 100%);
+	padding: 18px 24px;
+	border-radius: 12px;
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.25);
+	margin-bottom: 28px;
 	flex-wrap: wrap;
 	gap: 16px;
 }
@@ -580,9 +580,10 @@ body {
 }
 
 .tool-label {
-	font-size: 14px;
-	font-weight: 600;
-	color: #334155;
+	font-size: 13.5px;
+	font-weight: 700;
+	color: #bfdbfe;
+	letter-spacing: 0.02em;
 }
 
 .select-wrapper {
@@ -592,21 +593,27 @@ body {
 
 .custom-select {
 	appearance: none;
-	background: #f8fafc;
-	border: 1px solid #cbd5e1;
+	background: rgba(255, 255, 255, 0.12);
+	border: 1px solid rgba(255, 255, 255, 0.22);
 	border-radius: 6px;
 	padding: 8px 34px 8px 14px;
-	font-size: 14px;
+	font-size: 13.5px;
 	font-weight: 600;
-	color: #0f172a;
+	color: #ffffff;
 	cursor: pointer;
 	transition: all 0.15s ease;
 }
 
 .custom-select:focus {
 	outline: none;
-	border-color: #2563eb;
-	background: #ffffff;
+	border-color: #60a5fa;
+	background: rgba(255, 255, 255, 0.18);
+	box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.25);
+}
+
+.custom-select option {
+	background: #0f172a;
+	color: #ffffff;
 }
 
 .select-arrow {
@@ -616,44 +623,46 @@ body {
 	transform: translateY(-50%);
 	pointer-events: none;
 	font-size: 12px;
-	color: #64748b;
+	color: #93c5fd;
 }
 
 /* 膠囊按鈕群 */
 .pill-group {
 	display: flex;
-	background: #f1f5f9;
+	background: rgba(0, 0, 0, 0.25);
 	padding: 4px;
-	border-radius: 6px;
+	border-radius: 8px;
 	gap: 3px;
+	border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .pill-btn {
 	background: transparent;
 	border: none;
 	padding: 6px 12px;
-	font-size: 13.5px;
+	font-size: 13px;
 	font-weight: 600;
-	color: #475569;
-	border-radius: 4px;
+	color: #cbd5e1;
+	border-radius: 5px;
 	cursor: pointer;
 	transition: all 0.15s ease;
 }
 
 .pill-btn:hover {
-	color: #0f172a;
+	color: #ffffff;
+	background: rgba(255, 255, 255, 0.08);
 }
 
 .pill-btn.active {
 	background: #ffffff;
 	color: #0f172a;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 	font-weight: 700;
 }
 
 .pill-btn.danger-pill.active {
-	background: #fee2e2;
-	color: #dc2626;
+	background: #ef4444;
+	color: #ffffff;
 	font-weight: 700;
 }
 
@@ -668,27 +677,31 @@ body {
 	position: absolute;
 	left: 10px;
 	font-size: 13px;
-	color: #94a3b8;
+	color: #93c5fd;
 	pointer-events: none;
 }
 
 .search-input {
-	background: #f8fafc;
-	border: 1px solid #cbd5e1;
+	background: rgba(255, 255, 255, 0.12);
+	border: 1px solid rgba(255, 255, 255, 0.22);
 	border-radius: 6px;
 	padding: 7px 30px 7px 32px;
 	font-size: 13.5px;
 	width: 220px;
-	color: #0f172a;
+	color: #ffffff;
 	transition: all 0.15s ease;
+}
+
+.search-input::placeholder {
+	color: rgba(255, 255, 255, 0.5);
 }
 
 .search-input:focus {
 	outline: none;
-	border-color: #2563eb;
-	background: #ffffff;
+	border-color: #60a5fa;
+	background: rgba(255, 255, 255, 0.18);
 	width: 260px;
-	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+	box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.25);
 }
 
 .search-clear {
@@ -697,14 +710,14 @@ body {
 	background: none;
 	border: none;
 	font-size: 12px;
-	color: #94a3b8;
+	color: #93c5fd;
 	cursor: pointer;
 }
 
-/* 🆕 搜尋無結果提示 */
+/* 搜尋無結果提示 */
 .search-no-result {
 	font-size: 12.5px;
-	color: #dc2626;
+	color: #fca5a5;
 	margin: 0;
 	padding: 4px 2px;
 	animation: fadeIn 0.15s ease;
@@ -730,24 +743,25 @@ body {
 
 .tag-hint {
 	font-size: 12.5px;
-	color: #64748b;
+	color: #93c5fd;
+	font-weight: 600;
 }
 
 .tag-btn {
-	background: #f1f5f9;
-	border: 1px solid #e2e8f0;
+	background: rgba(255, 255, 255, 0.12);
+	border: 1px solid rgba(255, 255, 255, 0.2);
 	border-radius: 4px;
 	font-size: 12.5px;
-	padding: 4px 8px;
-	color: #334155;
+	padding: 4px 9px;
+	color: #e0f2fe;
 	cursor: pointer;
 	transition: all 0.15s ease;
 }
 
 .tag-btn:hover {
-	background: #e2e8f0;
-	color: #0f172a;
-	border-color: #cbd5e1;
+	background: rgba(255, 255, 255, 0.22);
+	color: #ffffff;
+	border-color: rgba(255, 255, 255, 0.4);
 }
 
 /* 核心視覺化雙圖佈局（上下縱向全寬排列，呼吸感充足） */
