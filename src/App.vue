@@ -133,7 +133,9 @@ function clearSelectedSchool() {
 			<div class="header-content">
 				<div class="header-main">
 					<h1 class="page-title">台灣大專校院新生註冊率視覺化分析</h1>
-					<p class="page-subtitle">106 ～ 114 學年度全台大專校院新生註冊率、公私立分布特徵與長期變化趨勢</p>
+					<p class="page-subtitle">
+						為升學選校解惑、為高教衝擊把脈：剖析 106～114 學年度全台大專校院新生註冊率，洞察公私立分佈特徵、長期走勢與 60% 關注門檻
+					</p>
 				</div>
 				<div class="author-meta">
 					<div class="course-label">資料分析與視覺化應用 · HW01</div>
