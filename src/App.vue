@@ -133,9 +133,14 @@ function clearSelectedSchool() {
 			<div class="header-content">
 				<div class="header-main">
 					<h1 class="page-title">台灣大專校院新生註冊率視覺化分析</h1>
-					<p class="page-subtitle">
-						為升學選校解惑、為高教衝擊把脈：剖析 106～114 學年度全台大專校院新生註冊率，洞察公私立分佈特徵、長期走勢與 60% 關注門檻
-					</p>
+					<div class="page-subtitle">
+						<p class="subtitle-question">
+							少子化下，學校招生真的招得到學生嗎？升學選校時，又該如何看懂一所學校的招生狀況？
+						</p>
+						<p class="subtitle-description">
+							透過 106～114 學年度全台大專校院新生註冊率資料，從公私立分佈、招生規模、長期趨勢與 60% 關注門檻切入，協助使用者快速理解各校招生狀況，找出值得進一步關注的學校與變化。
+						</p>
+					</div>
 				</div>
 				<div class="author-meta">
 					<div class="course-label">資料分析與視覺化應用 · HW01</div>
@@ -392,11 +397,22 @@ body {
 }
 
 .page-subtitle {
+	max-width: 880px;
+}
+
+.subtitle-question {
+	font-size: var(--font-base);
+	font-weight: 600;
+	color: #e0f2fe;
+	margin: 0 0 6px 0;
+	line-height: 1.6;
+}
+
+.subtitle-description {
 	font-size: var(--font-sm);
 	color: #bfdbfe;
 	margin: 0;
-	max-width: 840px;
-	line-height: 1.6;
+	line-height: 1.65;
 }
 
 .author-meta {
@@ -831,9 +847,15 @@ body {
 		margin-bottom: 6px;
 	}
 
-	.page-subtitle {
-		font-size: var(--font-xs);
+	.subtitle-question {
+		font-size: var(--font-sm);
 		line-height: 1.5;
+		margin-bottom: 4px;
+	}
+
+	.subtitle-description {
+		font-size: var(--font-xs);
+		line-height: 1.55;
 	}
 
 	/* 作者資訊：換行靠左對齊，搭配微光透頂線自然過渡 */
