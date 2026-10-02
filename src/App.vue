@@ -241,7 +241,7 @@ function clearSelectedSchool() {
 
 					<!-- 分段膠囊過濾器 -->
 					<div class="tool-item">
-						<span class="tool-label">屬性篩選</span>
+						<span class="tool-label">快速篩選</span>
 						<div class="pill-group">
 							<button class="pill-btn" :class="{ active: filterType === 'all' }" @click="filterType = 'all'">
 								全部
