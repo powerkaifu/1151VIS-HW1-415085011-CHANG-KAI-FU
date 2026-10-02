@@ -142,15 +142,6 @@ function clearSelectedSchool() {
 				<div class="header-main">
 					<div class="badge-row">
 						<span class="category-badge">高等教育數據專題</span>
-						<a
-							href="https://udb.moe.edu.tw/"
-							target="_blank"
-							rel="noopener noreferrer"
-							class="source-badge"
-							title="前往教育部大專校院校務資訊公開平臺"
-						>
-							教育部校務資訊公開平臺 (學12-3) ↗
-						</a>
 					</div>
 					<h1 class="page-title">臺灣大專校院新生註冊率視覺化分析</h1>
 					<p class="page-subtitle">106 ～ 114 學年度全台大專校院新生註冊率、公私立分布特徵與長期變化趨勢</p>
@@ -333,6 +324,16 @@ function clearSelectedSchool() {
 		<footer class="app-footer">
 			<div class="footer-inner">
 				<p>1151VIS-HW1 資料分析與視覺化應用 · Tamara Munzner 四層巢狀模型實踐作業</p>
+				<p class="footer-source">
+					資料來源：<a
+						href="https://udb.moe.edu.tw/"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="footer-link"
+						title="前往教育部大專校院校務資訊公開平臺"
+						>教育部校務資訊公開平臺 (學12-3) ↗</a
+					>
+				</p>
 				<p class="footer-sub">國立臺灣教育體系資料視覺化研究 · 415085011 張凱富</p>
 			</div>
 		</footer>
@@ -400,30 +401,6 @@ body {
 	font-weight: 700;
 	padding: 4px 10px;
 	border-radius: 4px;
-}
-
-.source-badge {
-	display: inline-flex;
-	align-items: center;
-	gap: 3px;
-	background: rgba(255, 255, 255, 0.1);
-	color: #e0f2fe;
-	font-size: 13px;
-	font-weight: 500;
-	padding: 4px 10px;
-	border-radius: 4px;
-	text-decoration: none;
-	border: 1px solid rgba(255, 255, 255, 0.2);
-	transition: all 0.15s ease;
-	cursor: pointer;
-}
-
-.source-badge:hover {
-	background: rgba(255, 255, 255, 0.2);
-	color: #ffffff;
-	border-color: rgba(255, 255, 255, 0.35);
-	text-decoration: none;
-	transform: translateY(-1px);
 }
 
 .page-title {
@@ -850,7 +827,23 @@ body {
 }
 
 .footer-inner p {
-	margin: 3px 0;
+	margin: 4px 0;
+}
+
+.footer-source {
+	color: #64748b;
+}
+
+.footer-link {
+	color: #2563eb;
+	text-decoration: none;
+	font-weight: 500;
+	transition: color 0.15s ease;
+}
+
+.footer-link:hover {
+	color: #1d4ed8;
+	text-decoration: underline;
 }
 
 .footer-sub {
