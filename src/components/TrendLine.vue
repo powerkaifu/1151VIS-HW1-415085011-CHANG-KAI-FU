@@ -246,7 +246,7 @@ onMounted(render)
 <template>
   <div class="trend-card">
     <div class="card-header">
-      <div>
+      <div class="header-left">
         <h3 class="chart-title">106～114 學年度公私立平均新生註冊率趨勢</h3>
         <p class="chart-subtitle">
           <span v-if="selectedSchool" class="active-school-text">
@@ -257,13 +257,28 @@ onMounted(render)
           </span>
         </p>
       </div>
-      <button
-        v-if="selectedSchool"
-        class="clear-school-btn"
-        @click="$emit('clear-school')"
-      >
-        ✕ 重設鎖定
-      </button>
+
+      <!-- 🌟 右上角統一圖例與觀察標籤 -->
+      <div class="header-right">
+        <button
+          v-if="selectedSchool"
+          class="clear-school-btn"
+          @click="$emit('clear-school')"
+        >
+          ✕ 重設鎖定
+        </button>
+
+        <div class="header-insight-group">
+          <div class="header-insight-pill public">
+            <span class="badge-public">公立大學</span>
+            <span class="insight-summary">穩定維持在 <strong>90%～95%</strong> 水平，招生高度穩定</span>
+          </div>
+          <div class="header-insight-pill private">
+            <span class="badge-private">私立大學</span>
+            <span class="insight-summary">變動較大，111~112 學年度曾出現 <strong>79.6%</strong> 相對低點</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="canvas-wrapper">
@@ -276,23 +291,14 @@ onMounted(render)
       />
     </div>
 
-    <div class="trend-insight">
-      <div v-if="selectedSchool && schoolHistory.length" class="school-insight-box">
+    <!-- 鎖定單一學校時保留底部專屬細節觀察 -->
+    <div v-if="selectedSchool && schoolHistory.length" class="trend-insight">
+      <div class="school-insight-box">
         <span class="box-tag">鎖定校觀察</span>
         <span class="box-text">
           {{ cleanName(selectedSchool) }} 在 {{ selectedYear }} 學年度註冊率為
           <strong>{{ (schoolHistory.find(d => d.year === selectedYear)?.rate ?? 0).toFixed(2) }}%</strong>
         </span>
-      </div>
-      <div v-else class="default-insight">
-        <div class="insight-row">
-          <span class="badge-public">公立大學</span>
-          <span class="insight-text">穩定維持在 <strong>90%～95%</strong> 水平，各年度招生註冊率高度穩定</span>
-        </div>
-        <div class="insight-row">
-          <span class="badge-private">私立大學</span>
-          <span class="insight-text">平均註冊率變動較大，111~112 學年度曾出現 <strong>79.6%</strong> 之相對低點</span>
-        </div>
       </div>
     </div>
   </div>
@@ -311,7 +317,14 @@ onMounted(render)
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.header-left {
+  flex: 1;
+  min-width: 280px;
 }
 
 .chart-title {
@@ -332,15 +345,60 @@ onMounted(render)
   color: #7c3aed;
 }
 
+/* 🌟 右上角統一圖例與觀察標籤群組 */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.header-insight-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.header-insight-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12.5px;
+  color: #475569;
+}
+
+.header-insight-pill.public {
+  border-color: #dbeafe;
+  background: #f8fbff;
+}
+
+.header-insight-pill.private {
+  border-color: #ffedd5;
+  background: #fffbf7;
+}
+
+.insight-summary {
+  line-height: 1.4;
+}
+
+.insight-summary strong {
+  color: #0f172a;
+}
+
 .clear-school-btn {
   background: #f1f5f9;
   border: 1px solid #cbd5e1;
   color: #334155;
   font-size: 12.5px;
-  padding: 4px 10px;
-  border-radius: 5px;
+  padding: 5px 12px;
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.15s ease;
+  font-weight: 600;
 }
 
 .clear-school-btn:hover {
@@ -391,24 +449,11 @@ onMounted(render)
   font-size: 15px;
 }
 
-.default-insight {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.insight-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 13.5px;
-}
-
 .badge-public,
 .badge-private {
   font-size: 12px;
   font-weight: 700;
-  padding: 3px 8px;
+  padding: 2px 7px;
   border-radius: 4px;
   white-space: nowrap;
 }
