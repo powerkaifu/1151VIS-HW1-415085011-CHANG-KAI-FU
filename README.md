@@ -10,7 +10,7 @@
 
 <!-- 待完成後截圖放入 docs/screenshot.png -->
 
-> ![專案主要視覺化成果畫面](./docs/screenshot.png)
+![專案主要視覺化成果畫面](./docs/screenshot.png)
 
 ---
 
@@ -59,7 +59,7 @@
 
 ### 📊 Level 2：What / Why —— 資料與任務抽象化（Data & Task Abstraction）
 
-#### 1. What —— 資料抽象化（Data Abstraction）
+#### What —— 資料抽象化（Data Abstraction）
 
 **資料集型態（Dataset Type）**：Table（多屬性結構化表格）＋ Temporal Time Series（106～114 學年度時間序列）
 **資料實體（Items）**：每一筆記錄 = 某學年度之特定大專校院（共 1,382 筆）
@@ -77,8 +77,9 @@
 **衍生指標管線（Derive Attributes）**：
 
 - `名額差額（Quota Gap）` = 核定招生名額(A) - 實際註冊人數(C)
-  > ⚠️ **指標定義說明**：此為本專案自行衍生之差額指標（核定名額與本國籍實際註冊人數之差），不等同於教育部官方註冊率公式之官方缺額定義。  
+  > ⚠️ **指標定義說明**：此為本專案自行衍生之差額指標（核定名額與本國籍實際註冊人數之差），不等同於教育部官方註冊率公式之官方缺額定義。
   > 依教育部官方定義，全校新生註冊率計算公式為 $E = \frac{C + D}{(A - B) + D} \times 100\%$，各參數涵義如下：
+  >
   > - **A**：全校總量內核定新生招生名額
   > - **B**：全校新生保留入學資格人數
   > - **C**：總量內新生招生核定名額的實際註冊人數
@@ -91,85 +92,7 @@
 
 ---
 
-#### 2. 資料清洗與轉換流程（ETL & Data Preprocessing Pipeline）
-
-針對教育部官方原始檔案 `學12-3.新生(含境外生)註冊率-以「校」統計.csv`，系統在 Composable 層（[`src/composables/useEnrollmentData.js`](./src/composables/useEnrollmentData.js)）實作資料清洗與轉換流程：
-
-##### (1) 原始資料品質挑戰與特徵（Data Quality Issues）
-
-1. **千分位字串干擾**：數值欄位（如核定名額 `"4,110"`、實際註冊人數 `"3,892"`）內含千分位逗號，直接以原生 JavaScript `parseFloat` 解析會被截斷為 `4`。
-2. **缺失值與特殊符號佔位**：部分停辦、新設立或無數據學校使用 `"-"`、`"..."` 或空白佔位，未妥善轉換會導致數值運算產生 `NaN`，破壞 D3 比例尺幾何映射。
-3. **學校名稱冗長且重複**：私立學校欄位常包含繁瑣之法人全銜且重複出現（如「輔仁大學學校財團法人輔仁大學」、「淡江大學學校財團法人淡江大學」），佔據畫面空間並阻礙檢索。
-4. **複雜長表頭命名**：教育部原始欄位名稱長達數十個字元（如 `當學年度全校新生註冊率(％)E=〔(C+D)/(A-B+D)〕*100％`），需正規化抽取對齊。
-
-##### (2) 六大清洗與轉換步驟（ETL Steps）
-
-```
-[ 原始 CSV 字串 ]
-       │
-       ▼
-[ Step 1: 數值正則清洗 parseNum（剔除逗號、排除 "-" 與 "..." 缺失記號）]
-       │
-       ▼
-[ Step 2: 欄位映射與無效列過濾（萃取 quota, enrolled, rate 等核心屬性）]
-       │
-       ▼
-[ Step 3: 衍生指標計算（名額差額 A-C 與 rateGroup 區間劃分）]
-       │
-       ▼
-[ Step 4: 學校名稱正規化 cleanSchoolName（移除法人全銜與重複字串）]
-       │
-       ▼
-[ Step 5: 跨年度歷史軌跡重組 getSchoolHistory（以 schoolName 索引 9 年資料）]
-       │
-       ▼
-[ Step 6: 年度趨勢聚合 trendData（計算各年度公立與私立平均基準線）]
-```
-
-- **Step 1：數值正則清洗與防呆（`parseNum`）**：
-  ```javascript
-  function parseNum(str) {
-  	if (!str || str.trim() === '-' || str.trim() === '...') return null
-  	const n = parseFloat(str.replace(/,/g, ''))
-  	return isNaN(n) ? null : n
-  }
-  ```
-- **Step 2：欄位正規化抽取與無效列過濾**：
-  使用 `d3.csv()` 非同步讀取，過濾掉未填招生名額或無校名的無效記錄，萃取出核心物件（`quota`, `enrolled`, `rate`, `year`, `ownership`, `schoolType`），共收納 **1,382 筆**有效年度學校資料。
-- **Step 3：衍生指標計算（Derive Attributes）**：
-  - `名額差額 (deficit)`：`quota !== null && enrolled !== null ? quota - enrolled : null`，計算核定名額與實際註冊人數之差距。
-  - `註冊率區間 (rateGroup)`：`calcRateGroup(rate)` 劃分為「未達 60%」、「60% ~ 80%」與「80% 以上」。
-- **Step 4：學校名稱正規化（`cleanSchoolName`）**：
-  ```javascript
-  function cleanSchoolName(name) {
-  	if (!name) return ''
-  	return name
-  		.replace(/學校財團法人/g, '')
-  		.replace(/財團法人/g, '')
-  		.replace(/(.+?)\1+/g, '$1') // 移除重複名稱（如 輔仁大學輔仁大學 -> 輔仁大學）
-  		.trim()
-  }
-  ```
-- **Step 5：跨年度校史歷史軌跡重組（`getSchoolHistory`）**：
-  建立跨 9 年索引，以 `schoolName` 聚合出該校 106 至 114 學年度的連續註冊率陣列，供副圖折線圖進行即時動態疊加。
-- **Step 6：年度趨勢聚合（`trendData`）**：
-  依據 `year` 與 `ownership`（公立/私立）進行分組，動態計算每年公立學校與私立學校的平均註冊率（`pubAvg` 與 `priAvg`），作為折線圖的宏觀基準線。
-
-##### (3) 清洗前後資料對照表（Before vs. After Comparison）
-
-| 處理維度         | 原始 CSV 資料（Raw Data）        | 清洗轉換後資料（Cleaned & Derived）                  |
-| :--------------- | :------------------------------- | :--------------------------------------------------- |
-| **核定招生名額** | 字串型態 `"4,110"`               | 數值型態 `4110`                                      |
-| **缺失值佔位**   | `"-"` 或 `"..."`                 | `null`（配合 D3 比例尺安全過濾）                     |
-| **學校名稱**     | `"輔仁大學學校財團法人輔仁大學"` | `"輔仁大學"`                                         |
-| **新生註冊率**   | 字串型態 `"94.76"`               | 數值型態 `94.76`                                     |
-| **名額差額**     | _（原始資料無此欄位）_           | 衍生計算 `quota - enrolled`（人）                    |
-| **註冊率區間**   | _（原始資料無此欄位）_           | 衍生判定 `'未達 60%'` / `'60% ~ 80%'` / `'80% 以上'` |
-| **時間序列聯動** | 各年度獨立分散之扁平列           | `getSchoolHistory` 聚合之 9 年歷史軌跡陣列           |
-
----
-
-#### 3. Why —— 任務抽象化（Task Abstraction）
+#### Why —— 任務抽象化（Task Abstraction）
 
 將具體的高教領域問題，轉譯為 Munzner 經典的 `{Action, Target}` 任務三元組：
 
