@@ -140,10 +140,7 @@ function clearSelectedSchool() {
 		<header class="app-header">
 			<div class="header-content">
 				<div class="header-main">
-					<div class="badge-row">
-						<span class="category-badge">高等教育數據專題</span>
-					</div>
-					<h1 class="page-title">臺灣大專校院新生註冊率視覺化分析</h1>
+					<h1 class="page-title">台灣大專校院新生註冊率視覺化分析</h1>
 					<p class="page-subtitle">106 ～ 114 學年度全台大專校院新生註冊率、公私立分布特徵與長期變化趨勢</p>
 				</div>
 				<div class="author-meta">
@@ -334,7 +331,6 @@ function clearSelectedSchool() {
 						>教育部校務資訊公開平臺 (學12-3) ↗</a
 					>
 				</p>
-				<p class="footer-sub">國立臺灣教育體系資料視覺化研究 · 415085011 張凱富</p>
 			</div>
 		</footer>
 	</div>
@@ -388,20 +384,7 @@ body {
 	gap: 16px;
 }
 
-.badge-row {
-	display: flex;
-	gap: 8px;
-	margin-bottom: 8px;
-}
 
-.category-badge {
-	background: rgba(255, 255, 255, 0.15);
-	color: #bfdbfe;
-	font-size: 13px;
-	font-weight: 700;
-	padding: 4px 10px;
-	border-radius: 4px;
-}
 
 .page-title {
 	font-size: 30px;
@@ -846,7 +829,5 @@ body {
 	text-decoration: underline;
 }
 
-.footer-sub {
-	color: #cbd5e1;
-}
+
 </style>
