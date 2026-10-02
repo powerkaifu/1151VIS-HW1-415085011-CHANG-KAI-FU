@@ -206,22 +206,29 @@ function render() {
         <div class="tip-action-hint">👆 點擊查看 9 年歷年走勢</div>
       `)
 
-    // 🌟 圓點防遮擋智慧定位：優先置於右側，若接近右邊界則自動向左翻轉，防止出界裁切
-    const cx = xScale(d.quota) + MARGIN.left
-    const cy = yScale(d.rate) + MARGIN.top
-    const tipWidth = 300
+    // 🌟 真實像素座標縮放計算（適配 SVG viewBox 響應式縮放，徹底杜絕撐出捲動軸）
+    const svgEl = svgRef.value
+    const rect = svgEl ? svgEl.getBoundingClientRect() : { width: WIDTH, height: HEIGHT }
+    const scaleX = rect.width / WIDTH
+    const scaleY = rect.height / HEIGHT
+
+    const realCx = (xScale(d.quota) + MARGIN.left) * scaleX
+    const realCy = (yScale(d.rate) + MARGIN.top) * scaleY
+    const tipWidth = Math.min(300, rect.width - 24)
     const tipHeight = 220
 
     // 智慧水平翻轉判定：若右側空間不足容納 tipWidth + 18px，則翻至左側
-    let left = cx + 18
-    if (left + tipWidth > WIDTH - 16) {
-      left = cx - tipWidth - 18
+    let left = realCx + 18
+    if (left + tipWidth > rect.width - 12) {
+      left = realCx - tipWidth - 18
     }
     if (left < 12) left = 12
 
-    let top = cy - tipHeight / 2
+    let top = realCy - tipHeight / 2
     if (top < 12) top = 12
-    if (top + tipHeight > HEIGHT - 12) top = HEIGHT - tipHeight - 12
+    if (top + tipHeight > rect.height - 12) {
+      top = rect.height - tipHeight - 12
+    }
 
     tooltip
       .style('left', `${left}px`)
@@ -456,14 +463,12 @@ onMounted(render)
 .canvas-wrapper {
   position: relative;
   width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden; /* 🛡️ 徹底禁止畫布內部產生任何水平或垂直捲動軸 */
 }
 
 .chart-svg {
   display: block;
   width: 100%;
-  min-width: 680px;
   height: auto;
 }
 

@@ -405,14 +405,12 @@ onMounted(render)
 
 .canvas-wrapper {
 	width: 100%;
-	overflow-x: auto;
-	-webkit-overflow-scrolling: touch;
+	overflow: hidden; /* 🛡️ 徹底禁止畫布內部產生任何水平或垂直捲動軸 */
 }
 
 .chart-svg {
 	display: block;
 	width: 100%;
-	min-width: 680px;
 	height: auto;
 }
 
