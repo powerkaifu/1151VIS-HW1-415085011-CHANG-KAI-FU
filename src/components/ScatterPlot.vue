@@ -200,10 +200,10 @@ function render() {
           <span class="tip-val">${d.quota?.toLocaleString()} 人</span>
           <span class="tip-lbl">實際註冊</span>
           <span class="tip-val">${d.enrolled?.toLocaleString()} 人</span>
-          <span class="tip-lbl">未足額人數</span>
+          <span class="tip-lbl">名額差額</span>
           <span class="tip-val">${d.deficit !== null ? (d.deficit > 0 ? `-${d.deficit.toLocaleString()}` : '0') : '無'} 人</span>
         </div>
-        <div class="tip-action-hint">👆 點擊即可鎖定查看 9 年歷年軌跡</div>
+        <div class="tip-action-hint">👆 點擊查看 9 年歷年走勢</div>
       `)
 
     // 🌟 圓點防遮擋智慧定位：優先置於右側，若接近右邊界則自動向左翻轉，防止出界裁切
@@ -317,7 +317,7 @@ onMounted(render)
       <div class="header-left">
         <h2 class="chart-title">各校招生規模與新生註冊率分佈</h2>
         <p class="chart-subtitle">
-          每個圓點代表一所學校 · 滑鼠懸停查看即時數據 · <span class="highlight-action">點擊任一點可鎖定歷史走勢</span>
+          每個圓點代表一所學校 · 懸停查看詳細資料 · <span class="highlight-action">點擊任一點查看歷年走勢</span>
         </p>
       </div>
 
@@ -355,7 +355,7 @@ onMounted(render)
       <div v-if="filteredCount === 0" class="empty-state">
         <span class="empty-icon">📊</span>
         <p class="empty-text">此學年度無符合篩選條件的學校資料</p>
-        <p class="empty-sub">請嘗試切換學年度或調整屬性篩選條件</p>
+        <p class="empty-sub">請嘗試切換學年度或調整快速篩選條件</p>
       </div>
 
       <!-- 現代深色毛玻璃 Tooltip -->

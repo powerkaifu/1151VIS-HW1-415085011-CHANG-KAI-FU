@@ -84,7 +84,7 @@ const summaryStats = computed(() => {
 const editorialInsight = computed(() => {
 	if (!summaryStats.value) return ''
 	const s = summaryStats.value
-	return `${selectedYear.value} 學年度全台共 ${s.totalSchools} 所大專校院，公立學校（${s.publicSchools} 所）平均註冊率達 ${s.pubAvg}%，全數維持在 85% 以上；私立學校（${s.privateSchools} 所）平均為 ${s.priAvg}%，兩者平均落差達 ${s.gap} 個百分點，其中有 ${s.dangerSchools} 所學校新生註冊率未達 60% 關注門檻。`
+	return `${selectedYear.value} 學年度全台共有 ${s.totalSchools} 所大專校院。公立學校平均註冊率為 ${s.pubAvg}%，私立學校平均為 ${s.priAvg}%，兩者相差 ${s.gap} 個百分點；另有 ${s.dangerSchools} 所學校註冊率未達 60% 關注門檻。`
 })
 
 // 📈 當前選定學校的 9 年歷史資料
@@ -138,7 +138,7 @@ function clearSelectedSchool() {
 							少子化下，學校招生真的招得到學生嗎？升學選校時，又該如何看懂一所學校的招生狀況？
 						</p>
 						<p class="subtitle-description">
-							透過 106～114 學年度全台大專校院新生註冊率資料，從公私立分佈、招生規模、長期趨勢與 60% 關注門檻切入，協助使用者快速理解各校招生狀況，找出值得進一步關注的學校與變化。
+							透過 106～114 學年度全台大專校院新生註冊率資料，從公私立分佈、招生規模、長期趨勢與 60% 關注門檻切入，幫助使用者快速理解各校招生狀況與歷年變化。
 						</p>
 					</div>
 				</div>
@@ -152,7 +152,7 @@ function clearSelectedSchool() {
 		<!-- 載入中 -->
 		<div v-if="isLoading" class="state-container">
 			<div class="loading-spinner"></div>
-			<p class="state-text">正在載入 106～114 學年度大專校院新生註冊率全量資料庫…</p>
+			<p class="state-text">正在載入新生註冊率資料…</p>
 		</div>
 
 		<!-- 錯誤 -->
@@ -176,8 +176,7 @@ function clearSelectedSchool() {
 			<section v-if="summaryStats" class="kpi-grid">
 				<div class="kpi-card">
 					<div class="kpi-header">
-						<span class="kpi-title">調查大專校院</span>
-						<span class="kpi-pill gray">全體涵蓋</span>
+						<span class="kpi-title">大專校院總數</span>
 					</div>
 					<div class="kpi-value-row">
 						<span class="kpi-num">{{ summaryStats.totalSchools }}</span>
@@ -190,38 +189,35 @@ function clearSelectedSchool() {
 
 				<div class="kpi-card highlight">
 					<div class="kpi-header">
-						<span class="kpi-title">公立大學平均</span>
-						<span class="kpi-pill blue">穩居高原</span>
+						<span class="kpi-title">公立學校平均</span>
 					</div>
 					<div class="kpi-value-row">
 						<span class="kpi-num text-primary">{{ summaryStats.pubAvg }}</span>
 						<span class="kpi-unit">%</span>
 					</div>
-					<div class="kpi-desc">全數高於 85%，招生高度穩定</div>
+					<div class="kpi-desc">共 {{ summaryStats.publicSchools }} 所公立學校</div>
 				</div>
 
 				<div class="kpi-card warning">
 					<div class="kpi-header">
-						<span class="kpi-title">私立大學平均</span>
-						<span class="kpi-pill amber">震盪劇烈</span>
+						<span class="kpi-title">私立學校平均</span>
 					</div>
 					<div class="kpi-value-row">
 						<span class="kpi-num text-warning">{{ summaryStats.priAvg }}</span>
 						<span class="kpi-unit">%</span>
 					</div>
-					<div class="kpi-desc">與公立差距達 {{ summaryStats.gap }} 個百分點</div>
+					<div class="kpi-desc">與公立平均差距 {{ summaryStats.gap }} 個百分點</div>
 				</div>
 
 				<div class="kpi-card danger">
 					<div class="kpi-header">
 						<span class="kpi-title">未達 60% 學校</span>
-						<span class="kpi-pill red">關注門檻</span>
 					</div>
 					<div class="kpi-value-row">
 						<span class="kpi-num text-danger">{{ summaryStats.dangerSchools }}</span>
 						<span class="kpi-unit">所</span>
 					</div>
-					<div class="kpi-desc">面臨招生逆境與轉型壓力校數</div>
+					<div class="kpi-desc">低於 60% 關注門檻</div>
 				</div>
 			</section>
 
@@ -277,7 +273,7 @@ function clearSelectedSchool() {
 						<button v-if="searchQuery" class="search-clear" @click="clearSelectedSchool">✕</button>
 					</div>
 					<!-- 🆕 搜尋無結果提示 -->
-					<p v-if="searchNoResult" class="search-no-result">找不到「{{ searchQuery }}」，請確認校名是否正確</p>
+					<p v-if="searchNoResult" class="search-no-result">找不到「{{ searchQuery }}」</p>
 				</div>
 			</section>
 

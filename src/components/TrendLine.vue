@@ -271,12 +271,12 @@ onMounted(render)
 
 				<div class="header-insight-group">
 					<div class="header-insight-pill public">
-						<span class="badge-public">公立大學</span>
-						<span class="insight-summary">穩定維持在 <strong>90%～95%</strong> 水平，招生高度穩定</span>
+						<span class="badge-public">公立學校</span>
+						<span class="insight-summary">106～114 學年度平均走勢</span>
 					</div>
 					<div class="header-insight-pill private">
-						<span class="badge-private">私立大學</span>
-						<span class="insight-summary">變動較大，111~112 學年度曾出現 <strong>79.6%</strong> 相對低點</span>
+						<span class="badge-private">私立學校</span>
+						<span class="insight-summary">106～114 學年度平均走勢</span>
 					</div>
 				</div>
 			</div>
