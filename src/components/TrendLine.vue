@@ -170,16 +170,22 @@ function render() {
 			.attr('stroke-width', (d) => (d.year === props.selectedYear ? 2.5 : 1.8))
 			.attr('stroke-opacity', props.schoolHistory.length ? 0.5 : 1)
 
-		// 末端標籤 (12.5px 粗體)
+		// 末端標籤 (顯示於圓點上方，避免右側邊界遮擋)
 		const last = lineData[lineData.length - 1]
 		if (last) {
 			g.append('text')
-				.attr('x', xScale(last.year) + 10)
-				.attr('y', yScale(last.avgRate) + 4)
-				.attr('font-size', '12.5px')
+				.attr('x', xScale(last.year))
+				.attr('y', yScale(last.avgRate) - 12)
+				.attr('text-anchor', 'middle')
+				.attr('font-size', '12px')
 				.attr('fill', color)
 				.attr('font-weight', '700')
-				.attr('opacity', props.schoolHistory.length ? 0.6 : 1)
+				.style('paint-order', 'stroke')
+				.style('stroke', '#ffffff')
+				.style('stroke-width', '3px')
+				.style('stroke-linecap', 'round')
+				.style('stroke-linejoin', 'round')
+				.attr('opacity', props.schoolHistory.length ? 0.7 : 1)
 				.text(`${ownership}平均 ${last.avgRate?.toFixed(1)}%`)
 		}
 	}
@@ -208,15 +214,22 @@ function render() {
 			.attr('stroke', '#ffffff')
 			.attr('stroke-width', 2.2)
 
-		// 末端專屬標籤
+		// 末端專屬標籤（智慧垂直避讓 + 白色防重疊光暈描邊）
 		const lastSchool = props.schoolHistory[props.schoolHistory.length - 1]
 		if (lastSchool) {
+			const isNearPublic = lastSchool.rate !== null && lastSchool.rate >= 87
 			g.append('text')
-				.attr('x', xScale(lastSchool.year) + 10)
-				.attr('y', yScale(lastSchool.rate) - 6)
+				.attr('x', xScale(lastSchool.year))
+				.attr('y', isNearPublic ? yScale(lastSchool.rate) + 20 : yScale(lastSchool.rate) - 14)
+				.attr('text-anchor', 'middle')
 				.attr('font-size', '13px')
 				.attr('fill', schoolColor)
 				.attr('font-weight', '700')
+				.style('paint-order', 'stroke')
+				.style('stroke', '#ffffff')
+				.style('stroke-width', '3px')
+				.style('stroke-linecap', 'round')
+				.style('stroke-linejoin', 'round')
 				.text(`★ ${cleanName(props.selectedSchool)} ${lastSchool.rate?.toFixed(1)}%`)
 		}
 	}
