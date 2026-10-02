@@ -263,7 +263,7 @@ function clearSelectedSchool() {
 						<input
 							v-model="searchQuery"
 							type="text"
-							placeholder="搜尋學校（如：臺灣大學、輔仁...）"
+							placeholder="搜尋學校（如：臺灣大學、輔仁大學）"
 							class="search-input"
 							@input="handleSearchInput"
 						/>
@@ -418,7 +418,7 @@ body {
 	max-width: 1400px;
 	width: 100%;
 	margin: 0 auto;
-	padding: 48px 32px 72px;
+	padding: 60px 32px;
 	box-sizing: border-box;
 	flex: 1;
 }
@@ -792,5 +792,170 @@ body {
 .footer-link:hover {
 	color: #93c5fd;
 	text-decoration: underline;
+}
+
+/* ==========================================================================
+   📱 響應式網頁設計（RWD 媒體查詢）
+   ========================================================================== */
+
+/* 💻 平板與窄螢幕桌面 (<= 1024px) */
+@media (max-width: 1024px) {
+	.kpi-grid {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 16px;
+	}
+
+	.toolbar-card {
+		gap: 14px;
+	}
+}
+
+/* 📱 主流行動端與直向平板 (<= 768px) */
+@media (max-width: 768px) {
+	/* 頂部 Header 自適應緊湊排版 */
+	.app-header {
+		padding: 28px 0;
+	}
+
+	.header-content {
+		padding: 0 16px;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+	}
+
+	.page-title {
+		font-size: var(--font-lg); /* 20px~24px 平衡大小 */
+		margin-bottom: 6px;
+	}
+
+	.page-subtitle {
+		font-size: var(--font-xs);
+		line-height: 1.5;
+	}
+
+	/* 作者資訊：換行靠左對齊，搭配微光透頂線自然過渡 */
+	.author-meta {
+		text-align: left;
+		width: 100%;
+		padding-top: 10px;
+		margin-top: 4px;
+		border-top: 1px solid rgba(255, 255, 255, 0.12);
+	}
+
+	/* 主內容區邊距縮減，釋放寶貴水平螢幕寬度 */
+	.main-body {
+		padding: 24px 16px 48px;
+	}
+
+	/* 📰 新聞導讀卡自適應 */
+	.editorial-card {
+		padding: 14px 16px;
+		gap: 12px;
+		margin-bottom: 18px;
+	}
+
+	.editorial-icon {
+		font-size: 20px;
+	}
+
+	.editorial-tag {
+		font-size: var(--font-base);
+		margin-bottom: 6px;
+	}
+
+	.editorial-text {
+		font-size: var(--font-sm);
+		line-height: 1.65;
+	}
+
+	/* 🎛️ 綜合控制列：縱向滿版流式佈局，徹底根除橫向溢出 */
+	.toolbar-card {
+		padding: 16px;
+		flex-direction: column;
+		align-items: stretch;
+		gap: 14px;
+		margin-bottom: 20px;
+	}
+
+	.toolbar-left {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 12px;
+		width: 100%;
+	}
+
+	.tool-item {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 6px;
+		width: 100%;
+	}
+
+	.select-wrapper {
+		width: 100%;
+	}
+
+	.custom-select {
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	.pill-group {
+		width: 100%;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 4px;
+		box-sizing: border-box;
+	}
+
+	.pill-btn {
+		text-align: center;
+		padding: 8px 6px;
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	.toolbar-right {
+		width: 100%;
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.search-box {
+		width: 100%;
+	}
+
+	/* 🚨 搜尋框禁止固定寬度，手機端強制 100% 流式寬度以防溢出 */
+	.search-input {
+		width: 100% !important;
+		box-sizing: border-box;
+	}
+
+	.search-input:focus {
+		width: 100% !important;
+	}
+
+	/* 頁尾安全邊距 */
+	.footer-inner {
+		padding: 0 16px;
+	}
+}
+
+/* 📱 小型手機設備 (<= 480px) */
+@media (max-width: 480px) {
+	.kpi-grid {
+		grid-template-columns: 1fr;
+		gap: 12px;
+	}
+
+	.kpi-card {
+		padding: 16px;
+	}
+
+	.pill-btn {
+		font-size: var(--font-xs);
+		padding: 6px 4px;
+	}
 }
 </style>

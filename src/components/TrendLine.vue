@@ -405,12 +405,14 @@ onMounted(render)
 
 .canvas-wrapper {
 	width: 100%;
-	overflow: visible;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
 }
 
 .chart-svg {
 	display: block;
 	width: 100%;
+	min-width: 680px;
 	height: auto;
 }
 
@@ -485,5 +487,44 @@ onMounted(render)
 :deep(.x-axis line),
 :deep(.y-axis line) {
 	stroke: #cbd5e1;
+}
+
+/* 📱 行動端與直向平板 RWD */
+@media (max-width: 768px) {
+	.trend-card {
+		padding: 16px;
+	}
+
+	.card-header {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 14px;
+	}
+
+	.header-left {
+		min-width: unset;
+		width: 100%;
+	}
+
+	.header-right {
+		width: 100%;
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.header-insight-group {
+		width: 100%;
+		gap: 6px;
+	}
+
+	.header-insight-pill {
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	.clear-school-btn {
+		width: 100%;
+		text-align: center;
+	}
 }
 </style>

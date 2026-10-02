@@ -206,12 +206,18 @@ function render() {
         <div class="tip-action-hint">👆 點擊即可鎖定查看 9 年歷年軌跡</div>
       `)
 
-    // 🌟 圓點右側防遮擋定位：完全固定在圓點右側，保留 20px 安全間隔，絕不翻轉到左邊遮擋
+    // 🌟 圓點防遮擋智慧定位：優先置於右側，若接近右邊界則自動向左翻轉，防止出界裁切
     const cx = xScale(d.quota) + MARGIN.left
     const cy = yScale(d.rate) + MARGIN.top
+    const tipWidth = 300
     const tipHeight = 220
 
-    const left = cx + 20
+    // 智慧水平翻轉判定：若右側空間不足容納 tipWidth + 18px，則翻至左側
+    let left = cx + 18
+    if (left + tipWidth > WIDTH - 16) {
+      left = cx - tipWidth - 18
+    }
+    if (left < 12) left = 12
 
     let top = cy - tipHeight / 2
     if (top < 12) top = 12
@@ -287,6 +293,12 @@ function render() {
       resetHighlight()
     })
 
+  // 點擊畫布空白處重設聚焦與關閉 Tooltip（友善行動觸控操作）
+  svg.on('click', function (event) {
+    if (event.target.tagName !== 'circle') {
+      resetHighlight()
+    }
+  })
 }
 
 function getBadgeMeta(level) {
@@ -444,12 +456,14 @@ onMounted(render)
 .canvas-wrapper {
   position: relative;
   width: 100%;
-  overflow: visible;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .chart-svg {
   display: block;
   width: 100%;
+  min-width: 680px;
   height: auto;
 }
 
@@ -503,7 +517,8 @@ onMounted(render)
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
   transition: opacity 0.15s ease;
   z-index: 50;
-  width: 310px;
+  width: min(300px, calc(100vw - 48px));
+  box-sizing: border-box;
 }
 
 :deep(.tip-header) {
@@ -587,5 +602,25 @@ onMounted(render)
 :deep(.x-axis line),
 :deep(.y-axis line) {
   stroke: #cbd5e1;
+}
+
+/* 📱 行動端與直向平板 RWD */
+@media (max-width: 768px) {
+  .scatter-card {
+    padding: 16px;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .header-legend {
+    width: 100%;
+    justify-content: space-around;
+    box-sizing: border-box;
+    padding: 8px 10px;
+  }
 }
 </style>
