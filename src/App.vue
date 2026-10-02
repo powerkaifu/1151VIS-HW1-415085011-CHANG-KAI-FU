@@ -26,7 +26,7 @@ const filterType = ref('all')
 // 🔍 搜尋與選取的特定學校名稱
 const searchQuery = ref('')
 const selectedSchool = ref('')
-const searchNoResult = ref(false)  // 🆕 搜尋無結果旗標
+const searchNoResult = ref(false) // 🆕 搜尋無結果旗標
 
 // ✅ 資料載入完成後預設最新年度
 watch(
@@ -122,7 +122,7 @@ function handleSearchInput() {
 		searchNoResult.value = false
 	} else {
 		selectedSchool.value = ''
-		searchNoResult.value = true  // 🆕 觸發無結果提示
+		searchNoResult.value = true // 🆕 觸發無結果提示
 	}
 }
 
@@ -130,7 +130,7 @@ function handleSearchInput() {
 function clearSelectedSchool() {
 	selectedSchool.value = ''
 	searchQuery.value = ''
-	searchNoResult.value = false  // 🆕 同步重置
+	searchNoResult.value = false // 🆕 同步重置
 }
 </script>
 
@@ -185,9 +185,9 @@ function clearSelectedSchool() {
 				</div>
 			</section>
 
-			<!-- 關鍵指標卡片群（Hero KPI Stat Cards） -->
+			<!-- 關鍵指標卡片群（Hero KPI Stat Cards - 純展示數據摘要） -->
 			<section v-if="summaryStats" class="kpi-grid">
-				<div class="kpi-card" :class="{ active: filterType === 'all' }" @click="filterType = 'all'">
+				<div class="kpi-card">
 					<div class="kpi-header">
 						<span class="kpi-title">調查大專校院</span>
 						<span class="kpi-pill gray">全體涵蓋</span>
@@ -201,7 +201,7 @@ function clearSelectedSchool() {
 					</div>
 				</div>
 
-				<div class="kpi-card highlight" :class="{ active: filterType === 'public' }" @click="filterType = 'public'">
+				<div class="kpi-card highlight">
 					<div class="kpi-header">
 						<span class="kpi-title">公立大學平均</span>
 						<span class="kpi-pill blue">穩居高原</span>
@@ -213,7 +213,7 @@ function clearSelectedSchool() {
 					<div class="kpi-desc">全數高於 85%，招生高度穩定</div>
 				</div>
 
-				<div class="kpi-card warning" :class="{ active: filterType === 'private' }" @click="filterType = 'private'">
+				<div class="kpi-card warning">
 					<div class="kpi-header">
 						<span class="kpi-title">私立大學平均</span>
 						<span class="kpi-pill amber">震盪劇烈</span>
@@ -225,7 +225,7 @@ function clearSelectedSchool() {
 					<div class="kpi-desc">與公立差距達 {{ summaryStats.gap }} 個百分點</div>
 				</div>
 
-				<div class="kpi-card danger" :class="{ active: filterType === 'danger' }" @click="filterType = 'danger'">
+				<div class="kpi-card danger">
 					<div class="kpi-header">
 						<span class="kpi-title">未達 60% 學校</span>
 						<span class="kpi-pill red">關注門檻</span>
@@ -234,7 +234,7 @@ function clearSelectedSchool() {
 						<span class="kpi-num text-danger">{{ summaryStats.dangerSchools }}</span>
 						<span class="kpi-unit">所</span>
 					</div>
-					<div class="kpi-desc">點擊可於圖表篩選關注校</div>
+					<div class="kpi-desc">面臨招生逆境與轉型壓力校數</div>
 				</div>
 			</section>
 
@@ -290,9 +290,7 @@ function clearSelectedSchool() {
 						<button v-if="searchQuery" class="search-clear" @click="clearSelectedSchool">✕</button>
 					</div>
 					<!-- 🆕 搜尋無結果提示 -->
-					<p v-if="searchNoResult" class="search-no-result">
-						找不到「{{ searchQuery }}」，請確認校名是否正確
-					</p>
+					<p v-if="searchNoResult" class="search-no-result">找不到「{{ searchQuery }}」，請確認校名是否正確</p>
 					<!-- 快捷熱門標籤 -->
 					<div class="quick-tags">
 						<span class="tag-hint">熱門:</span>
@@ -516,42 +514,6 @@ body {
 	border-radius: 10px;
 	padding: 18px 22px;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-	cursor: pointer;
-	transition: all 0.15s ease;
-}
-
-.kpi-card:hover {
-	transform: translateY(-2px);
-	box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.06);
-	border-color: #cbd5e1;
-}
-
-.kpi-card.active {
-	transform: translateY(-3px);
-	box-shadow: 0 8px 20px -4px rgba(37, 99, 235, 0.15);
-	border-color: #2563eb;
-	background: #f0f9ff;
-}
-
-.kpi-card.danger.active {
-	transform: translateY(-3px);
-	box-shadow: 0 8px 20px -4px rgba(239, 68, 68, 0.18);
-	border-color: #ef4444;
-	background: #fff5f5;
-}
-
-.kpi-card.warning.active {
-	transform: translateY(-3px);
-	box-shadow: 0 8px 20px -4px rgba(245, 158, 11, 0.18);
-	border-color: #f59e0b;
-	background: #fffbeb;
-}
-
-.kpi-card.highlight.active {
-	transform: translateY(-3px);
-	box-shadow: 0 8px 20px -4px rgba(37, 99, 235, 0.18);
-	border-color: #2563eb;
-	background: #eff6ff;
 }
 
 .kpi-header {
@@ -789,8 +751,14 @@ body {
 }
 
 @keyframes fadeIn {
-	from { opacity: 0; transform: translateY(-4px); }
-	to   { opacity: 1; transform: translateY(0); }
+	from {
+		opacity: 0;
+		transform: translateY(-4px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 /* 快捷標籤 */
