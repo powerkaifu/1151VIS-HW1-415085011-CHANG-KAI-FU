@@ -137,7 +137,7 @@ function render() {
     .attr('y', INNER_H + 54)
     .attr('text-anchor', 'middle')
     .attr('fill', '#64748b')
-    .attr('font-size', '13px')
+    .attr('font-size', 'var(--font-xs)')
     .attr('font-weight', '600')
     .text('核定招生名額（人）')
 
@@ -147,7 +147,7 @@ function render() {
     .attr('y', -54)
     .attr('text-anchor', 'middle')
     .attr('fill', '#64748b')
-    .attr('font-size', '13px')
+    .attr('font-size', 'var(--font-xs)')
     .attr('font-weight', '600')
     .text('新生註冊率（%）')
 
@@ -174,7 +174,7 @@ function render() {
     .attr('y', yScale(props.dangerThreshold) - 10)
     .attr('text-anchor', 'end')
     .attr('fill', '#dc2626')
-    .attr('font-size', '13px')
+    .attr('font-size', 'var(--font-xs)')
     .attr('font-weight', '700')
     .text(`⚠️ ${props.dangerThreshold}% 關注門檻`)
 
@@ -374,7 +374,7 @@ onMounted(render)
 }
 
 .chart-title {
-  font-size: 18px;
+  font-size: var(--font-md);
   font-weight: 700;
   color: #0f172a;
   margin: 0 0 4px 0;
@@ -382,7 +382,7 @@ onMounted(render)
 }
 
 .chart-subtitle {
-  font-size: 14px;
+  font-size: var(--font-xs);
   color: #475569;
   margin: 0;
 }
@@ -414,7 +414,7 @@ onMounted(render)
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font-size: 13.5px;
+  font-size: var(--font-xs);
   font-weight: 600;
   color: #334155;
 }
@@ -474,14 +474,14 @@ onMounted(render)
 }
 
 .empty-text {
-  font-size: 15px;
+  font-size: var(--font-sm);
   font-weight: 600;
   color: #334155;
   margin: 0 0 6px 0;
 }
 
 .empty-sub {
-  font-size: 13px;
+  font-size: var(--font-xs);
   color: #94a3b8;
   margin: 0;
 }
@@ -498,7 +498,7 @@ onMounted(render)
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 8px;
   padding: 14px 16px;
-  font-size: 13.5px;
+  font-size: var(--font-xs);
   line-height: 1.55;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
   transition: opacity 0.15s ease;
@@ -516,7 +516,7 @@ onMounted(render)
 
 :deep(.tip-title) {
   font-weight: 700;
-  font-size: 15.5px;
+  font-size: var(--font-base);
   color: #ffffff;
   line-height: 1.35;
 }
@@ -524,14 +524,14 @@ onMounted(render)
 :deep(.tip-badge) {
   flex-shrink: 0;
   white-space: nowrap;
-  font-size: 12px;
+  font-size: var(--font-xs);
   font-weight: 700;
   padding: 2px 8px;
   border-radius: 4px;
 }
 
 :deep(.tip-meta) {
-  font-size: 12.5px;
+  font-size: var(--font-xs);
   color: #94a3b8;
   margin-bottom: 8px;
 }
@@ -550,19 +550,19 @@ onMounted(render)
 
 :deep(.tip-lbl) {
   color: #94a3b8;
-  font-size: 13px;
+  font-size: var(--font-xs);
 }
 
 :deep(.tip-val) {
   text-align: right;
   font-weight: 600;
   color: #f8fafc;
-  font-size: 13.5px;
+  font-size: var(--font-xs);
   font-variant-numeric: tabular-nums;
 }
 
 :deep(.tip-val.highlight) {
-  font-size: 15px;
+  font-size: var(--font-sm);
   font-weight: 700;
 }
 
@@ -570,14 +570,14 @@ onMounted(render)
   margin-top: 10px;
   padding-top: 8px;
   border-top: 1px dashed rgba(255, 255, 255, 0.18);
-  font-size: 12px;
+  font-size: var(--font-xs);
   color: #93c5fd;
   text-align: center;
 }
 
 :deep(.x-axis text),
 :deep(.y-axis text) {
-  font-size: 13px;
+  font-size: var(--font-xs);
   font-weight: 500;
   fill: #475569;
 }

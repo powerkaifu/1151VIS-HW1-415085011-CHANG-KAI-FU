@@ -177,7 +177,7 @@ function render() {
 				.attr('x', xScale(last.year))
 				.attr('y', yScale(last.avgRate) - 12)
 				.attr('text-anchor', 'middle')
-				.attr('font-size', '12px')
+				.attr('font-size', 'var(--font-xs)')
 				.attr('fill', color)
 				.attr('font-weight', '700')
 				.style('paint-order', 'stroke')
@@ -222,7 +222,7 @@ function render() {
 				.attr('x', xScale(lastSchool.year))
 				.attr('y', isNearPublic ? yScale(lastSchool.rate) + 20 : yScale(lastSchool.rate) - 14)
 				.attr('text-anchor', 'middle')
-				.attr('font-size', '13px')
+				.attr('font-size', 'var(--font-xs)')
 				.attr('fill', schoolColor)
 				.attr('font-weight', '700')
 				.style('paint-order', 'stroke')
@@ -325,7 +325,7 @@ onMounted(render)
 }
 
 .chart-title {
-	font-size: 18px;
+	font-size: var(--font-md);
 	font-weight: 700;
 	color: #0f172a;
 	margin: 0 0 4px 0;
@@ -333,7 +333,7 @@ onMounted(render)
 }
 
 .chart-subtitle {
-	font-size: 14px;
+	font-size: var(--font-xs);
 	color: #475569;
 	margin: 0;
 }
@@ -364,7 +364,7 @@ onMounted(render)
 	border: 1px solid #e2e8f0;
 	border-radius: 6px;
 	padding: 4px 10px;
-	font-size: 12.5px;
+	font-size: var(--font-xs);
 	color: #475569;
 }
 
@@ -390,7 +390,7 @@ onMounted(render)
 	background: #f1f5f9;
 	border: 1px solid #cbd5e1;
 	color: #334155;
-	font-size: 12.5px;
+	font-size: var(--font-xs);
 	padding: 5px 12px;
 	border-radius: 6px;
 	cursor: pointer;
@@ -428,14 +428,14 @@ onMounted(render)
 	border: 1px solid #e9d5ff;
 	border-radius: 8px;
 	padding: 10px 14px;
-	font-size: 14px;
+	font-size: var(--font-xs);
 	color: #581c87;
 }
 
 .box-tag {
 	background: #7c3aed;
 	color: #ffffff;
-	font-size: 11.5px;
+	font-size: var(--font-xs);
 	font-weight: 700;
 	padding: 2px 7px;
 	border-radius: 4px;
@@ -443,12 +443,12 @@ onMounted(render)
 
 .box-text strong {
 	color: #7c3aed;
-	font-size: 15px;
+	font-size: var(--font-sm);
 }
 
 .badge-public,
 .badge-private {
-	font-size: 12px;
+	font-size: var(--font-xs);
 	font-weight: 700;
 	padding: 2px 7px;
 	border-radius: 4px;
@@ -475,7 +475,7 @@ onMounted(render)
 
 :deep(.x-axis text),
 :deep(.y-axis text) {
-	font-size: 13px;
+	font-size: var(--font-xs);
 	font-weight: 500;
 	fill: #475569;
 }

@@ -325,6 +325,17 @@ function clearSelectedSchool() {
 </template>
 
 <style>
+:root {
+	/* 🔤 全域字階原生變數系統（最小字體 14px） */
+	--font-xs: 14px;      /* 基準底線：座標軸刻度、圖例、Tooltip 細項、微型標籤、頁尾 */
+	--font-sm: 15px;      /* 次要正文：控制項輸入文字、下拉選單、卡片描述、頁面副標 */
+	--font-base: 16px;    /* 主要正文：導讀文章、操作標籤 Label、膠囊按鈕 */
+	--font-md: 18px;      /* 卡片標題、重點區塊標題 */
+	--font-lg: 20px;      /* 強調標題、次級大標 */
+	--font-xl: 30px;      /* 頁面大標題 (Page Title) */
+	--font-stat: 36px;    /* KPI 指標核心大數值 */
+}
+
 *,
 *::before,
 *::after {
@@ -375,7 +386,7 @@ body {
 
 
 .page-title {
-	font-size: 30px;
+	font-size: var(--font-xl);
 	font-weight: 800;
 	color: #ffffff;
 	margin: 0 0 10px 0;
@@ -384,7 +395,7 @@ body {
 }
 
 .page-subtitle {
-	font-size: 15px;
+	font-size: var(--font-sm);
 	color: #bfdbfe;
 	margin: 0;
 	max-width: 840px;
@@ -393,7 +404,7 @@ body {
 
 .author-meta {
 	text-align: right;
-	font-size: 14px;
+	font-size: var(--font-xs);
 }
 
 .course-label {
@@ -434,7 +445,7 @@ body {
 }
 
 .editorial-tag {
-	font-size: 16.5px;
+	font-size: var(--font-md);
 	font-weight: 800;
 	color: #1e40af;
 	margin-bottom: 8px;
@@ -442,7 +453,7 @@ body {
 }
 
 .editorial-text {
-	font-size: 15.5px;
+	font-size: var(--font-base);
 	line-height: 1.75;
 	color: #1e3a8a;
 	margin: 0;
@@ -472,13 +483,13 @@ body {
 }
 
 .kpi-title {
-	font-size: 14px;
+	font-size: var(--font-xs);
 	font-weight: 600;
 	color: #475569;
 }
 
 .kpi-pill {
-	font-size: 12px;
+	font-size: var(--font-xs);
 	font-weight: 700;
 	padding: 2px 7px;
 	border-radius: 4px;
@@ -509,7 +520,7 @@ body {
 }
 
 .kpi-num {
-	font-size: 32px;
+	font-size: var(--font-stat);
 	font-weight: 800;
 	letter-spacing: -0.02em;
 	font-variant-numeric: tabular-nums;
@@ -517,13 +528,13 @@ body {
 }
 
 .kpi-unit {
-	font-size: 15px;
+	font-size: var(--font-sm);
 	font-weight: 600;
 	color: #64748b;
 }
 
 .kpi-desc {
-	font-size: 13px;
+	font-size: var(--font-xs);
 	color: #64748b;
 	line-height: 1.5;
 }
@@ -568,7 +579,7 @@ body {
 }
 
 .tool-label {
-	font-size: 14px;
+	font-size: var(--font-base);
 	font-weight: 600;
 	color: #334155;
 }
@@ -584,7 +595,7 @@ body {
 	border: 1px solid #cbd5e1;
 	border-radius: 6px;
 	padding: 8px 34px 8px 14px;
-	font-size: 14px;
+	font-size: var(--font-sm);
 	font-weight: 600;
 	color: #0f172a;
 	cursor: pointer;
@@ -603,7 +614,7 @@ body {
 	top: 50%;
 	transform: translateY(-50%);
 	pointer-events: none;
-	font-size: 12px;
+	font-size: var(--font-xs);
 	color: #64748b;
 }
 
@@ -620,7 +631,7 @@ body {
 	background: transparent;
 	border: none;
 	padding: 6px 12px;
-	font-size: 13.5px;
+	font-size: var(--font-xs);
 	font-weight: 600;
 	color: #475569;
 	border-radius: 4px;
@@ -655,7 +666,7 @@ body {
 .search-icon {
 	position: absolute;
 	left: 10px;
-	font-size: 13px;
+	font-size: var(--font-xs);
 	color: #94a3b8;
 	pointer-events: none;
 }
@@ -665,7 +676,7 @@ body {
 	border: 1px solid #cbd5e1;
 	border-radius: 6px;
 	padding: 7px 30px 7px 32px;
-	font-size: 13.5px;
+	font-size: var(--font-sm);
 	width: 220px;
 	color: #0f172a;
 	transition: all 0.15s ease;
@@ -684,14 +695,14 @@ body {
 	right: 10px;
 	background: none;
 	border: none;
-	font-size: 12px;
+	font-size: var(--font-xs);
 	color: #94a3b8;
 	cursor: pointer;
 }
 
 /* 🆕 搜尋無結果提示 */
 .search-no-result {
-	font-size: 12.5px;
+	font-size: var(--font-xs);
 	color: #dc2626;
 	margin: 0;
 	padding: 4px 2px;
@@ -746,7 +757,7 @@ body {
 }
 
 .state-text {
-	font-size: 15px;
+	font-size: var(--font-sm);
 	color: #64748b;
 	margin: 0;
 }
@@ -766,7 +777,7 @@ body {
 	padding: 0 32px;
 	box-sizing: border-box;
 	text-align: center;
-	font-size: 13px;
+	font-size: var(--font-xs);
 	color: #94a3b8;
 }
 
