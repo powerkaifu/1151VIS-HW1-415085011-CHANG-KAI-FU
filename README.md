@@ -8,9 +8,9 @@
 
 ## 📸 專案執行成果展示
 
-  <img src="./docs/screenshot.png" alt="專案主要視覺化成果畫面" style="width: 60%;" />
-
----
+<a href="./docs/screenshot.png" target="_blank" rel="noopener noreferrer">
+  <img src="./docs/screenshot.png" alt="專案主要視覺化成果畫面" style="width: 75%;" />
+</a>
 
 ## 🛠️ 開發環境與技術棧
 
